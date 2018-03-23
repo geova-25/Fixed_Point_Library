@@ -2,7 +2,7 @@ import FixedPoint
 from operator import mul
 import math
 
-active = 0;
+active = 1;
 def printGolds(a,b):
     if (active):
         print a, b
@@ -47,8 +47,8 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
     result_final = 0
     error = 0
     real_value = 0
-    while(Divisor<Terminal_condition):
-    #while(counter != 7):
+    #while(Divisor<Terminal_condition):
+    while(counter != 15):
 
         printGolds("Iteration #" + str(counter + 1), "--------------------")
 
@@ -70,5 +70,12 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
         printGolds("Error % : ", error)
     return result_final,error,real_value
 
-#print goldschmidt_division(10,0.1,12,8)
+
+#-----------------------------test
+division_Result = goldschmidt_division(86,7,24,8)
+printGolds("Real: ", division_Result[0])
+printGolds("Result: ", division_Result[2])
+printGolds("Error % : ", division_Result[1])
+
+#print goldschmidt_division(86,7,24,8)
 #print goldschmidt_division(0.1,10,12,8)

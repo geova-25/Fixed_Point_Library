@@ -20,14 +20,14 @@ def fill_from_to_jumping(A,B,C):
         counter += C
     return lis_A
 
-A_values_list =  fill_from_to_jumping(0.5,10,0.1)
-B_values_list =  fill_from_to_jumping(0.5,10,0.1)
+A_values_list =  fill_from_to_jumping(0.025,4,0.025)
+B_values_list =  fill_from_to_jumping(0.025,4,0.025)
 R_values_list_aux = []
 R_values_list = []
 
 for x in range(0,quantity_of_values):
     for y in range(0,quantity_of_values):
-        R_values_list_aux.append(goldschmidt_division.goldschmidt_division(A_values_list[x],B_values_list[y],12,8)[1])
+        R_values_list_aux.append(goldschmidt_division.goldschmidt_division(A_values_list[x],B_values_list[y],28,6)[1])
     R_values_list.append(R_values_list_aux)
     R_values_list_aux = []
 
