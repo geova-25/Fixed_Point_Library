@@ -1,10 +1,11 @@
 import FixedPoint
 from operator import mul
+import fixed_point_operations as fpOp
 import math
 
-active = 1;
+active_prints = 0
 def printGolds(a,b):
-    if (active):
+    if (active_prints):
         print a, b
 
 
@@ -34,8 +35,12 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
 
         printGolds("Corrimientos: ", counter)
 
-        Dividend = float(string_to_format.format(float(Dividend / two)))
-        Divisor = float(string_to_format.format(float(Divisor / two)))
+        Dividend = fpOp.shift_Right_Floating(float(string_to_format.format(float(Dividend))),fractional,integer)
+        Divisor  = fpOp.shift_Right_Floating(float(string_to_format.format(float(Divisor))),fractional,integer)
+        #Dividend = float(string_to_format.format(float(Dividend / two)))
+        #Divisor = float(string_to_format.format(float(Divisor / two)))
+        #print "Dividend: ", Dividend
+        #print "Divisor: ", Divisor
         fAproximation = Divisor
         #Divisor_Aux = Divisor_Aux >> 1
         #fAproximation = Divisor_Aux >> 1
@@ -47,8 +52,8 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
     result_final = 0
     error = 0
     real_value = 0
-    #while(Divisor<Terminal_condition):
-    while(counter != 15):
+    while(Divisor<Terminal_condition):
+    #while(counter != 15):
 
         printGolds("Iteration #" + str(counter + 1), "--------------------")
 
@@ -72,10 +77,12 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
 
 
 #-----------------------------test
-division_Result = goldschmidt_division(86,7,24,8)
-printGolds("Real: ", division_Result[0])
-printGolds("Result: ", division_Result[2])
-printGolds("Error % : ", division_Result[1])
 
-#print goldschmidt_division(86,7,24,8)
-#print goldschmidt_division(0.1,10,12,8)
+A = 3.225
+B = 0.025
+
+division_Result = goldschmidt_division(A,B,54,10)
+
+#printGolds("Real: ", division_Result[0])
+#printGolds("Result: ", division_Result[2])
+#printGolds("Error % : ", division_Result[1])

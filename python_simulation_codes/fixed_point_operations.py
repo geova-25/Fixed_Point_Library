@@ -26,10 +26,11 @@ def shift_Left_Floating(number, fractBits, intBits):
     return final_result
 
 #--------------test shift_Left/Right_Floating
-
+'''
 number = 6.023456
 fractional_bits = 12
 integer_bits = 8
 total_bits = fractional_bits + integer_bits
 print "Left:  ",shift_Left_Floating(number,fractional_bits,integer_bits)
 print "Right: ",shift_Right_Floating(number,fractional_bits,integer_bits)
+'''
