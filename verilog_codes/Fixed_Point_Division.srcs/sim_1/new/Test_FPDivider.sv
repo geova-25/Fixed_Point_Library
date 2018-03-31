@@ -21,25 +21,34 @@
 
 module Test_FPDivider();
 
-    reg clk = 0;
-    reg [31:0] divisor, dividend;
-    wire [31:0] Q,R, shifted_dvd,shifted_dvr;
-    wire readyShifting;
     parameter Word_length_local = 32;
     parameter fractional_bits__local = 24;
+    reg clk = 0;
+    reg [31:0] divisor = 0;
+    reg [31:0] dividend = 0;
+    wire [31:0] Q, shifted_dvd,shifted_dvr,dvdOut,dvrOut, dvd;
+    wire done;
+  
+    wire [Word_length_local-1:0] dvdAux = 0;
+    wire [Word_length_local-1:0] dvrAux = 0;
+    wire [Word_length_local-1:0] fOut = 0;
+    
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits__local)) FPD(
         clk,
         divisor,  //M
         dividend, //Q
         Q,
-        R,
-        readyShifting,
         shifted_dvd,
-        shifted_dvr
+        shifted_dvr,
+        dvdOut,
+        dvrOut,
+        fOut,
+        done,
+        dvdAux,
+        dvrAux
     );
 
-    reg [Word_length_local-1:0] dvd_aux = 0;
-    reg [Word_length_local-1:0] dvs_aux = 0;
+    
 
     always
       #50 clk = !clk;
@@ -47,10 +56,8 @@ module Test_FPDivider();
     initial
       begin
       #5;
-        dvs_aux = {1'b1,7'd80,24'd0}; //'
-        dvd_aux = {1'b0,7'd80,24'd0}; //'
-        assign divisor = dvs_aux;
-        assign dividend = dvd_aux;
+        assign divisor = {1'b0,7'd7,24'd0};
+        assign dividend = {1'b0,7'd60,24'd0};
       end
 
 endmodule

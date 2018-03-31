@@ -43,10 +43,10 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
         else
           begin
             if(Shift_Dvr_Out[Word_length-2:fractional_bits] == 0)
-              begin
-                ready = 1'b1;//'
+              begin                
                 Shift_Dvr_Out[Word_length-1] = Shift_Dvr_In[Word_length-1];
                 Shift_Dvd_Out[Word_length-1] = Shift_Dvd_In[Word_length-1];
+                ready = 1'b1;//'
                 counter = 0;
               end
             else

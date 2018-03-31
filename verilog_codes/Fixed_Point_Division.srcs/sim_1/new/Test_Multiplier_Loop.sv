@@ -27,24 +27,23 @@ module Test_Multiplier_Loop (
     parameter fractional_bits = 24;
 
     reg clk = 0;
-    reg [Word_length-1:0] dvr;
-    reg [Word_length-1:0] dvd;
+    reg [Word_length-1:0] dvr, dvrOut;
+    reg [Word_length-1:0] dvd, dvdOut;
     reg [Word_length-1:0] f;
     reg [Word_length-1:0] result;
-    reg [Word_length-1:0] presult;
-    reg [Word_length-1:0] perror;
-    reg done;
+    reg done,go;
 
 
 Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
         clk,
+        go,
         dvr,
         dvd,
         f,
         result,
         done,
-        presult,
-        perror
+        dvdOut,
+        dvrOut
 );
 
 
@@ -59,6 +58,7 @@ Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML 
       //dvd = dvd >> 7;
       //dvr = dvr >> 7;
       f   = dvr ;
+      go = 1;
     end
 
 
