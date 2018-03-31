@@ -3,7 +3,7 @@ from operator import mul
 import fixed_point_operations as fpOp
 import math
 
-active_prints = 0
+active_prints = 1
 def printGolds(a,b):
     if (active_prints):
         print a, b
@@ -45,6 +45,8 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
         #Divisor_Aux = Divisor_Aux >> 1
         #fAproximation = Divisor_Aux >> 1
     printGolds("fAproximation: ", string_to_format.format(float(fAproximation)))
+    printGolds("Divisor: ", string_to_format.format(float(Divisor)))
+    printGolds("Dividend: ", string_to_format.format(float(Dividend)))
     #print Family.resolution #Me da la resolucion (numero de bits fraccionales)
 
     counter = 0
@@ -78,10 +80,10 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
 
 #-----------------------------test
 
-A = 3.225
-B = 0.025
+A = 60
+B = 7
 
-division_Result = goldschmidt_division(A,B,54,10)
+division_Result = goldschmidt_division(A,B,24,8)
 
 #printGolds("Real: ", division_Result[0])
 #printGolds("Result: ", division_Result[2])

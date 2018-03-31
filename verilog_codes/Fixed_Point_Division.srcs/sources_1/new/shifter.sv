@@ -42,21 +42,22 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
           end
         else
           begin
-            Shift_Dvr_Out = Shift_Dvr_Out;
-            Shift_Dvd_Out = Shift_Dvd_Out;
+            if(Shift_Dvr_Out[Word_length-2:fractional_bits] == 0)
+              begin
+                ready = 1'b1;//'
+                Shift_Dvr_Out[Word_length-1] = Shift_Dvr_In[Word_length-1];
+                Shift_Dvd_Out[Word_length-1] = Shift_Dvd_In[Word_length-1];
+                counter = 0;
+              end
+            else
+              begin
+                Shift_Dvr_Out = Shift_Dvr_Out >> 2;
+                Shift_Dvd_Out = Shift_Dvd_Out >> 2;
+                ready = 1'b0; //'
+              end
           end
 
-        if(Shift_Dvr_Out[Word_length-2:fractional_bits] == 0)
-          begin
-            ready = 1'b1;//'
-            counter = 0;
-          end
-        else
-          begin
-            Shift_Dvr_Out = Shift_Dvr_Out >> 2;
-            Shift_Dvd_Out = Shift_Dvd_Out >> 2;
-            ready = 1'b0; //'
-          end
+
       end
 
 endmodule

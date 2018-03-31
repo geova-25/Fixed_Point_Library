@@ -45,42 +45,21 @@ module Test_Shifter(
     reg [Word_length_local-1:0] dvd_aux = 0;
     reg [Word_length_local-1:0] dvs_aux = 0;
 
+
     initial
       begin
         #50;
           clk = 0;
         #50;
           clk = 1;
-          dvs_aux = {8'd200,24'b0};
-          dvd_aux = 1;
-          dvs_aux[Word_length_local-1] = 1'b0; //'
-          dvd_aux[Word_length_local-1] = 1'b0; //'
+          dvs_aux = {1'b1,7'd1,24'b0}; //'
+          dvd_aux = {1'b1,7'd80,24'b0}; //'
           assign Shift_Dvr_In = dvs_aux;
           assign Shift_Dvd_In = dvd_aux;
         #50;
           clk = 0;
         #50;
           clk = 1;
-          /*
-          dvs_aux = 1;
-          dvd_aux = 1;
-          dvs_aux[Word_length_local-1] = 1'b0; //'
-          dvd_aux[Word_length_local-1] = 1'b0; //'
-          assign Shift_Dvr_In = dvs_aux;
-          assign Shift_Dvd_In = dvd_aux;
-          */
-        #50;
-          clk = 0;
-        #50;
-          clk = 1;
-          /*
-          dvs_aux = 400;
-          dvd_aux = 1;
-          dvs_aux[Word_length_local-1] = 1'b0; //'
-          dvd_aux[Word_length_local-1] = 1'b0; //'
-          assign Shift_Dvr_In = dvs_aux;
-          assign Shift_Dvd_In = dvd_aux;
-          */
         #50;
           clk = 0;
         #50;
@@ -89,14 +68,18 @@ module Test_Shifter(
           clk = 0;
         #50;
           clk = 1;
-          /*
-          dvs_aux = 400;
-          dvd_aux = 1;
-          dvs_aux[Word_length_local-1] = 1'b0; //'
-          dvd_aux[Word_length_local-1] = 1'b0; //'
-          assign Shift_Dvr_In = dvs_aux;
-          assign Shift_Dvd_In = dvd_aux;
-          */
+        #50;
+          clk = 0;
+        #50;
+          clk = 1;
+        #50;
+          clk = 0;
+        #50;
+          clk = 1;
+        #50;
+          clk = 0;
+        #50;
+          clk = 1;
         #50;
       end
 
