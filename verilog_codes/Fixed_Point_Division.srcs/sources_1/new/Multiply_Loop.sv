@@ -26,6 +26,8 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
     input reg [Word_length-1:0] dvr,
     input reg [Word_length-1:0] dvd,
     input reg [Word_length-1:0] f,
+    input wire signIn,
+    output reg signOut,
     output reg [Word_length-1:0] result,
     output reg done = 0,
     output reg [Word_length-1:0] dvdAux = 0,
@@ -79,6 +81,7 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
                 signal = 1;
                 dvdAux = dvd;
                 dvrAux = dvr;
+                signOut = signIn;
                 fAux = f;
                 counter = counter + 1;
                 done = 0;

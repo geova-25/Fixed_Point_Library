@@ -34,13 +34,15 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     output wire readyToGo,
     output wire readyShifting,
     output reg [Word_length-1:0] divisorAux,
-    output reg [Word_length-1:0] dividendAux
+    output reg [Word_length-1:0] dividendAux,
+    output reg [Word_length-1:0] result,
+    output wire SDI_Sign_Out
     );
 
 
     reg [Word_length-1:0] SDI_Dvd_Out;
     reg [Word_length-1:0] SDI_Dvr_Out;
-    wire SDI_Sign_Out;
+    wire signShift,signMultLoop;
 
     Sign_Detector #(.Word_length(Word_length)) Sign_Detector (
       dividend,
@@ -49,6 +51,7 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
       SDI_Dvr_Out,
       SDI_Sign_Out
     );
+   
 
     shifter #(.Word_length(Word_length), .fractional_bits(fractional_bits)) SHF (
         clk,
@@ -56,11 +59,13 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         done,
         SDI_Dvd_Out ,
         SDI_Dvr_Out,
+        SDI_Sign_Out,
+        signShift,
         shifted_dvd,
         shifted_dvr,
         readyShifting,
         divisorAux,
-        dividendAux
+        dividendAux        
         );
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
@@ -69,6 +74,8 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         shifted_dvr,
         shifted_dvd,
         shifted_dvr,
+        signShift,
+        signMultLoop,
         Q,
         done,
         dvdOut,
@@ -80,6 +87,6 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     //-----------------------------------------------
 
 
-    //Final_Sign_Usher #(.Word_length(Word_length)) Final_Sign_Usher(shifted_dvd,SDI_Sign_Out,Q);
+    Final_Sign_Usher #(.Word_length(Word_length)) Final_Sign_Usher(Q,signMultLoop,result);
 
 endmodule

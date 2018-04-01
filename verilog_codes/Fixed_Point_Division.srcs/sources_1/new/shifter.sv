@@ -26,6 +26,8 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
     input wire done,
     input  [Word_length-1:0] Shift_Dvd_In,
     input  [Word_length-1:0] Shift_Dvr_In,
+    input  wire signIn,
+    output reg signOut,
     output reg [Word_length-1:0] shifted_dvd = 0,
     output reg [Word_length-1:0] shifted_dvr = 0,
     output reg readyShifting = 0,
@@ -41,6 +43,7 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
                 begin
                     dividendAux = Shift_Dvd_In;
                     divisorAux = Shift_Dvr_In;
+                    signOut = signIn;
                     readyShifting = 0;
                     firstOne = 0;                                        
                 end
