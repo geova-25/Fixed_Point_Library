@@ -21,43 +21,51 @@
 
 
 module shifter #(Word_length = 32, fractional_bits = 24) (
-    input clk,
-    input reg [Word_length-1:0] Shift_Dvd_In,
-    input reg [Word_length-1:0] Shift_Dvr_In,
-    output reg [Word_length-1:0] Shift_Dvd_Out,
-    output reg [Word_length-1:0] Shift_Dvr_Out,
-    output reg ready
+    input wire clk,
+    input wire readyToGo,
+    input wire done,
+    input  [Word_length-1:0] Shift_Dvd_In,
+    input  [Word_length-1:0] Shift_Dvr_In,
+    output reg [Word_length-1:0] shifted_dvd = 0,
+    output reg [Word_length-1:0] shifted_dvr = 0,
+    output reg readyShifting = 0,
+    output reg [Word_length-1:0] divisorAux,
+    output reg [Word_length-1:0] dividendAux
     );
-    reg counter = 0;
-    reg [Word_length-2:0] Shift_Dvd_In_Aux = 0;
-    reg [Word_length-2:0] Shift_Dvr_In_Aux = 0;
 
-    always @(posedge clk)
-      begin
-        if(counter == 0)
-          begin
-            Shift_Dvr_Out = Shift_Dvr_In[Word_length-2:0];
-            Shift_Dvd_Out = Shift_Dvd_In[Word_length-2:0];
-            counter = 1'b1; //'
-          end
-        else
-          begin
-            if(Shift_Dvr_Out[Word_length-2:fractional_bits] == 0)
-              begin                
-                Shift_Dvr_Out[Word_length-1] = Shift_Dvr_In[Word_length-1];
-                Shift_Dvd_Out[Word_length-1] = Shift_Dvd_In[Word_length-1];
-                ready = 1'b1;//'
-                counter = 0;
-              end
-            else
-              begin
-                Shift_Dvr_Out = Shift_Dvr_Out >> 2;
-                Shift_Dvd_Out = Shift_Dvd_Out >> 2;
-                ready = 1'b0; //'
-              end
-          end
+    reg firstOne = 1;
 
+     always @(posedge clk)
+         begin
+            if((done == 1 || readyToGo) && firstOne  == 1)
+                begin
+                    dividendAux = Shift_Dvd_In;
+                    divisorAux = Shift_Dvr_In;
+                    readyShifting = 0;
+                    firstOne = 0;                                        
+                end
+             if(divisorAux[Word_length - 1:fractional_bits] == 0)
+                 begin
+                    shifted_dvd = dividendAux;
+                    shifted_dvr = divisorAux;
+                    readyShifting = 1;
+                    firstOne = 1;
 
-      end
+                 end
+             else
+                 begin
+                     divisorAux = divisorAux >> 1;
+                     dividendAux = dividendAux >> 1;
+                     readyShifting = 0;
+                 end
+         end
+
+ /*
+     always @*
+         begin
+             dividendAux = Shift_Dvd_In;
+             divisorAux = Shift_Dvr_In; 
+         end
+ */
 
 endmodule

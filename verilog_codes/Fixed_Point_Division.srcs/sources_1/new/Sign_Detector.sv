@@ -21,8 +21,8 @@
 
 
 module Sign_Detector #(parameter Word_length = 32)(
-    input [Word_length-1:0] Op_A_SD_In,
-    input [Word_length-1:0] Op_B_SD_In,
+    input reg [Word_length-1:0] Op_A_SD_In,
+    input reg [Word_length-1:0] Op_B_SD_In,
     output reg [Word_length-1:0] Op_A_SD_Out,
     output reg [Word_length-1:0] Op_B_SD_Out,
     output reg sign

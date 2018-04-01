@@ -80,8 +80,8 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
 
 #-----------------------------test
 
-A = 0.8359675
-B = 0.953125
+A = 0.5
+B = 7
 
 division_Result = goldschmidt_division(A,B,24,8)
 
