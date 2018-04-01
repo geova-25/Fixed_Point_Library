@@ -29,12 +29,13 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
     input wire signIn,
     output reg signOut,
     output reg [Word_length-1:0] result,
-    output reg done = 0,
-    output reg [Word_length-1:0] dvdAux = 0,
-    output reg [Word_length-1:0] dvrAux = 0,
-    output reg [Word_length-1:0] fAux = 0,
     output reg readyToGo = 1
     );
+
+
+    reg [Word_length-1:0] dvdAux = 0;
+    reg [Word_length-1:0] dvrAux = 0;
+    reg [Word_length-1:0] fAux = 0;
 
     wire [Word_length - 1:fractional_bits] two = 2;
     wire [Word_length - 1:fractional_bits] one = 1;
@@ -46,7 +47,7 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
     reg [3:0] counter = 0;
     reg signal = 0;
     
-   Multiplier #(.Q(24),.N(32)) multDVDF
+   Multiplier #(.Q(fractional_bits),.N(Word_length)) multDVDF
       (
        fAux,
        dvrAux,
@@ -54,7 +55,7 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
        ovr_f_x_dvr
        );
 
-    Multiplier #(.Q(24),.N(32)) multDVSF
+    Multiplier #(.Q(fractional_bits),.N(Word_length)) multDVSF
       (
        fAux,
        dvdAux,
@@ -69,7 +70,6 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
           begin
             //result = dvd;
             result = result_f_x_dvd;
-            done = 1;
             counter = 1;
             signal = 1; 
             readyToGo = 1;
@@ -84,7 +84,6 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
                 signOut = signIn;
                 fAux = f;
                 counter = counter + 1;
-                done = 0;
                 readyToGo = 0;
             end
         else if(signal == 1)
@@ -93,12 +92,10 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
             dvrAux = result_f_x_dvr;
             fAux = {two,cero} - dvrAux; // '
             counter = counter + 1;
-            done = 0;
             readyToGo = 0;
           end
         else
             counter = 0;
-            done = 0;
       end
 
 endmodule

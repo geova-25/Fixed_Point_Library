@@ -24,21 +24,19 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     input clk,
     input wire [Word_length-1:0] divisor,
     input wire [Word_length-1:0] dividend,
-    output wire [Word_length-1:0] Q,
-    output wire [Word_length-1:0] shifted_dvd,
-    output wire [Word_length-1:0] shifted_dvr,
-    output wire [Word_length-1:0] dvdOut,
-    output wire [Word_length-1:0] dvrOut,
-    output wire [Word_length-1:0] fOut,
-    output wire done,
-    output wire readyToGo,
-    output wire readyShifting,
-    output reg [Word_length-1:0] divisorAux,
-    output reg [Word_length-1:0] dividendAux,
     output reg [Word_length-1:0] result,
-    output wire SDI_Sign_Out
+    output wire ready
     );
-
+    
+    
+    wire [Word_length-1:0] Q;
+    wire [Word_length-1:0] shifted_dvd;
+    wire [Word_length-1:0] shifted_dvr;
+    wire [Word_length-1:0] dvdOut;
+    wire [Word_length-1:0] dvrOut;
+    wire [Word_length-1:0] fOut;
+    wire readyShifting;
+    wire SDI_Sign_Out;
 
     reg [Word_length-1:0] SDI_Dvd_Out;
     reg [Word_length-1:0] SDI_Dvr_Out;
@@ -55,17 +53,14 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
 
     shifter #(.Word_length(Word_length), .fractional_bits(fractional_bits)) SHF (
         clk,
-        readyToGo,
-        done,
+        ready,
         SDI_Dvd_Out ,
         SDI_Dvr_Out,
         SDI_Sign_Out,
         signShift,
         shifted_dvd,
         shifted_dvr,
-        readyShifting,
-        divisorAux,
-        dividendAux        
+        readyShifting
         );
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
@@ -77,11 +72,7 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         signShift,
         signMultLoop,
         Q,
-        done,
-        dvdOut,
-        dvrOut,
-        fOut,
-        readyToGo
+        ready
       );
 
     //-----------------------------------------------

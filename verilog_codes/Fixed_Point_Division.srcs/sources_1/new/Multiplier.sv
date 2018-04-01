@@ -46,14 +46,14 @@ module Multiplier #(
 											//		with fixed point in same location...
 	
 //---------------------------------------------------------------------------------
-	always @(i_multiplicand, i_multiplier)	begin						//	Do the multiply any time the inputs change
+	always @(*)	begin						//	Do the multiply any time the inputs change
 		r_result <= i_multiplicand[N-2:0] * i_multiplier[N-2:0];	//	Removing the sign bits from the multiply - that 
 																					//		would introduce *big* errors	
 		ovr <= 1'b0;															//	reset overflow flag to zero
 		end
 	
 		//	This always block will throw a warning, as it uses a & b, but only acts on changes in result...
-	always @(r_result) begin													//	Any time the result changes, we need to recompute the sign bit,
+	always @(*) begin													//	Any time the result changes, we need to recompute the sign bit,
 		r_RetVal[N-1] <= i_multiplicand[N-1] ^ i_multiplier[N-1];	//		which is the XOR of the input sign bits...  (you do the truth table...)
 		r_RetVal[N-2:0] <= r_result[N-2+Q:Q];								//	And we also need to push the proper N bits of result up to 
 																						//		the calling entity...

@@ -24,17 +24,32 @@ module Test_FPDivider();
     parameter Word_length_local = 32;
     parameter fractional_bits__local = 24;
     reg clk = 0;
-    reg [Word_length_local-1:0] dividend = 0;
     reg [Word_length_local -1:0] divisor = 0;
-    wire [Word_length_local-1:0] result;
-    wire ready;
+    reg [Word_length_local-1:0] dividend = 0;
+    wire [Word_length_local-1:0] Q, shifted_dvd,shifted_dvr,dvdOut,dvrOut, dvdAux, dvrAux, result;
+    wire done;
+  
+    wire [Word_length_local-1:0] fOut = 0;
+    
+    wire readyToGo, readyShifting, signResult;
     
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits__local)) FPD(
         clk,
         divisor,  //M
         dividend, //Q
+        Q,
+        shifted_dvd,
+        shifted_dvr,
+        dvdOut,
+        dvrOut,
+        fOut,
+        done,
+        readyToGo,
+        readyShifting,
+        dvrAux,
+        dvdAux,
         result,
-        ready
+        signResult
     );
 
     
