@@ -63,22 +63,20 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
        ovr_f_x_dvd
        );
        
-    always @(posedge clk)
+    always @(posedge clk)  //This secuential block will do the goldschmidt algorithm for division
       begin
-        if(result_f_x_dvr[fractional_bits-1:0] == fractional_ones )
-        //if(counter == 5)
+        if(result_f_x_dvr[fractional_bits-1:0] == fractional_ones )  //If the divisor is all ones in the fractional part then ir is ready to end
           begin
-            //result = dvd;
-            result = result_f_x_dvd;
-            counter = 1;
-            signal = 1; 
-            readyToGo = 1;
-            dvdAux = dvd;
+            result = result_f_x_dvd; // The result is assign from the last multiplication
+            counter = 1;             // The counter is assigned to one because to avoid one cicle when assign the next one immediately 
+            signal = 1;              // Signal in one because we will jump one cicle
+            readyToGo = 1;           // Signal that the algorithm ended
+            dvdAux = dvd;            // Assign the next values
             dvrAux = dvr;
           end
-        else if(counter == 0 && go == 1)
+        else if(counter == 0 && go == 1) //This is for the first time that the algoritm takes a value
             begin
-                signal = 1;
+                signal = 1;         
                 dvdAux = dvd;
                 dvrAux = dvr;
                 signOut = signIn;
@@ -86,16 +84,16 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
                 counter = counter + 1;
                 readyToGo = 0;
             end
-        else if(signal == 1)
+        else if(signal == 1)           //When signal is one and non of above is satisfy
           begin
-            dvdAux = result_f_x_dvd;
+            dvdAux = result_f_x_dvd;   // Assign the value to be the last multiplicacion of both dvd and dvr
             dvrAux = result_f_x_dvr;
-            fAux = {two,cero} - dvrAux; // '
-            counter = counter + 1;
-            readyToGo = 0;
+            fAux = {two,cero} - dvrAux;// Calculate the new aproximation
+            counter = counter + 1;     //Add one to counter
+            readyToGo = 0;             //No ready
           end
         else
-            counter = 0;
+            counter = 0;               // Otherwise counter is maintained in cero
       end
 
 endmodule

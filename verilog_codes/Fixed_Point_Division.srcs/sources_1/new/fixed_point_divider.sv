@@ -43,6 +43,8 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     wire finalSign;
     wire startShifting;
     
+    
+    //---------------Module that detect and calculate the signs
 
     Sign_Detector #(.Word_length(Word_length)) Sign_Detector (
       clk,
@@ -55,6 +57,7 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
       startShifting
     );
    
+    //-----------------Module that will to the shift of the operands
 
     shifter #(.Word_length(Word_length), .fractional_bits(fractional_bits)) SHF (
         clk,
@@ -67,6 +70,8 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         shifted_dvr,
         readyShifting
         );
+        
+     //-----------------Loop of the Goldschmidt Algorithm
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
         clk,
@@ -80,7 +85,7 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         ready
       );
 
-    //-----------------------------------------------
+    //------------------Final sign assigment based on the initial calculation
 
 
     Final_Sign_Usher #(.Word_length(Word_length)) Final_Sign_Usher(Q,finalSign,result);

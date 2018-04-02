@@ -10,7 +10,7 @@
 // Target Devices:
 // Tool Versions:
 // Description:
-//
+// This module will do the shifting of the operands for the initial aproximation.
 // Dependencies:
 //
 // Revision:
@@ -22,8 +22,8 @@
 
 module shifter #(Word_length = 32, fractional_bits = 24) (
     input wire clk,
-    input wire readyToGo,
-    input  [Word_length-1:0] Shift_Dvd_In,
+    input wire readyToGo,           //This signal will tell if the shifter shoud start processing
+    input  [Word_length-1:0] Shift_Dvd_In,  
     input  [Word_length-1:0] Shift_Dvr_In,
     input  wire signIn,
     output reg signOut,
@@ -32,30 +32,29 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
     output reg readyShifting = 0
     );
 
-
-    reg [Word_length-1:0] divisorAux;
-    reg [Word_length-1:0] dividendAux;
-    reg firstOne = 1;
+    reg [Word_length-1:0] divisorAux;  // The auxiliary divisor register for saving the result step by step 
+    reg [Word_length-1:0] dividendAux; // The auxiliary dividend register for saving the result step by step
+    reg firstOne = 1;  // This signal is to internally control the loop with the initialvalues 
 
      always @(posedge clk)
          begin
-            if(readyToGo && firstOne  == 1)
-                begin
-                    dividendAux = Shift_Dvd_In;
+            if(readyToGo && firstOne  == 1)     // If it is the first time and the shifter was tell to start then
+                begin 
+                    dividendAux = Shift_Dvd_In; //We assign the initial values and sign 
                     divisorAux = Shift_Dvr_In;
                     signOut = signIn;
-                    readyShifting = 0;
+                    readyShifting = 0;          //Put the signal of ready in off because is processing
                     firstOne = 0;
                 end
-             if(divisorAux[Word_length - 1:fractional_bits] == 0)
+             if(divisorAux[Word_length - 1:fractional_bits] == 0)  //When the divisor has all integer part in ceros then is ready to end
                  begin
                     shifted_dvd = dividendAux;
                     shifted_dvr = divisorAux;
-                    readyShifting = 1;
+                    readyShifting = 1;   //The signal is put in one because it ended 
                     firstOne = 1;
 
                  end
-             else
+             else   //Otherwise it will be doing a shift
                  begin
                      divisorAux = divisorAux >> 1;
                      dividendAux = dividendAux >> 1;
