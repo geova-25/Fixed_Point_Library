@@ -28,7 +28,8 @@ module Test_FPDivider();
     reg [Word_length_local -1:0] divisor = 0;
     wire [Word_length_local-1:0] result;
     wire ready;
-    
+
+   
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits__local)) FPD(
         clk,
         divisor,  //M
