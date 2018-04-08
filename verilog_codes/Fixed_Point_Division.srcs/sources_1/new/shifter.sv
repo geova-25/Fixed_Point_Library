@@ -46,11 +46,13 @@ module shifter #(Word_length = 32, fractional_bits = 24) (
                     readyShifting = 0;          //Put the signal of ready in off because is processing
                     firstOne = 0;
                 end
-             if(divisorAux[Word_length - 1:fractional_bits] == 0)  //When the divisor has all integer part in ceros then is ready to end
+             else if((divisorAux[Word_length - 1:fractional_bits] == 0) && firstOne == 0)  //When the divisor has all integer part in ceros then is ready to end
                  begin
                     shifted_dvd = dividendAux;
                     shifted_dvr = divisorAux;
-                    readyShifting = 1;   //The signal is put in one because it ended 
+                    divisorAux = 0;
+                    dividendAux = 0 ;
+                    readyShifting = 1;
                     firstOne = 1;
 
                  end

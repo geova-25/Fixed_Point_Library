@@ -22,43 +22,73 @@
 module Test_FPDivider();
 
     parameter Word_length_local = 32;
-    parameter fractional_bits__local = 24;
+    parameter fractional_bits_local = 24;
     reg clk = 0;
     reg [Word_length_local-1:0] dividend = 0;
     reg [Word_length_local -1:0] divisor = 0;
-    wire [Word_length_local-1:0] result;
-    wire ready;
-
+    wire [Word_length_local-1:0] result, SDI_Dvd_Out, SDI_Dvr_Out;
+    wire ready, readyShift, readyDetectorSign;
+    reg firstTime = 0;
    
-    fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits__local)) FPD(
+    fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits_local)) FPD(
         clk,
         divisor,  //M
         dividend, //Q
         result,
-        ready
+        ready,
+        SDI_Dvd_Out,
+        SDI_Dvr_Out,
+        readyShift,
+        readyDetectorSign
     );
 
-    
+
+always
+    begin 
+    #50
+    if(ready == 1)
+        begin
+           /* if(firstTime == 0)
+                begin
+                    dividend = {1'b0,7'd0,24'd0};
+                    divisor  = {1'b1,7'd0,24'd0};
+                    firstTime = 1;
+                end
+            else
+ */            
+                begin
+                    divisor[Word_length_local - 1] = $random%2;
+                    dividend[Word_length_local - 1] = $random%2;
+                    divisor[23:10] = $random%8000;
+                    dividend[23:10] = $random%8000;
+                    divisor[Word_length_local:fractional_bits_local] = $random%120;
+                    dividend[Word_length_local:fractional_bits_local] = $random%120;
+                end
+        end
+    end  
 
     always
       #25 clk = !clk;
-
+      
     initial
       begin
       #5;
-        assign dividend = {1'b0,7'd0,1'b1,23'd0};
-        assign divisor  = {1'b1,7'd7,24'd0};
+        divisor = 10; //'
+        dividend = 10; //';
+      /*
       #250;
         assign dividend = {1'b0,7'd8,24'd0};
         assign divisor  = {1'b0,7'd9,24'd0};
       #300;
         assign dividend = {1'b1,7'd3,24'd0};
         assign divisor  = {1'b0,7'd27,24'd0};
-        
-   
+      #300;
+        assign dividend = {1'b1,7'd1,24'd0};
+        assign divisor  = {1'b1,7'd5,24'd0};        
+     
         //assign dividend = {1'b0,7'd0,3'b101,21'd0};
         //assign divisor  = {1'b0,7'd0,3'b111,21'd0};
-                
+      */        
       end
 
 endmodule
