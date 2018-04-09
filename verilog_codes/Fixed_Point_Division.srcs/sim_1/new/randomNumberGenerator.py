@@ -10,12 +10,14 @@ intBits = 8
 
 def generateRandomFloatsDecimalList():
     file = open("OperandsDecimal.txt","w")
-    for x in range (0,5):
-        randomA = random.uniform(-5,5)
-        randomB = random.uniform(-5,5)
+    fileResultDecimalFloatingPoint = open("ResultDecimalFloatingPoint.txt","w")
+    for x in range (0,20):
+        randomA = random.uniform(-10,10)
+        randomB = random.uniform(-10,10)
         listRandomFloatsA.append(randomA)
         listRandomFloatsB.append(randomB)
         file.write(str(randomA) + "   " + str(randomB) + " \n ")
+        fileResultDecimalFloatingPoint.write(str(randomA/randomB)+ " \n")
         generateRandomBinaryList(listRandomFloatsA, listRandomFloatsB)
     file.close()
 
