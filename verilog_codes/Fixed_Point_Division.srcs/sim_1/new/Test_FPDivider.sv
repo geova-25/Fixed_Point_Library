@@ -26,27 +26,24 @@ module Test_FPDivider();
     reg clk = 0;
     reg [Word_length_local-1:0] dividend = 0;
     reg [Word_length_local -1:0] divisor = 0;
-    wire [Word_length_local-1:0] result, SDI_Dvd_Out, SDI_Dvr_Out;
-    wire ready, readyShift, readyDetectorSign;
+    wire [Word_length_local-1:0] result;
+    wire ready;
     reg firstTime = 0;
     reg [Word_length_local-1:0] testStringA;
     reg [Word_length_local-1:0] testStringB;
     int fdOpBin,fdReBin,scra,scrb,scwr;
     string opa,opb;
+    
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits_local)) FPD(
         clk,
         divisor,  //M
         dividend, //Q
         result,
-        ready,
-        SDI_Dvd_Out,
-        SDI_Dvr_Out,
-        readyShift,
-        readyDetectorSign
+        ready
     );
     
 
-
+/*
 always
     begin 
     #50
@@ -71,26 +68,26 @@ always
                 dividend = testStringA;
                 $fclose(fdReBin);
                 //$fclose(fdOpBin);
-                /*
-                divisor[Word_length_local - 1] = $random%2;
-                dividend[Word_length_local - 1] = $random%2;
-                divisor[23:10] = $random%8000;
-                dividend[23:10] = $random%8000;
-                divisor[Word_length_local:fractional_bits_local] = $random%120;
-                dividend[Word_length_local:fractional_bits_local] = $random%120;
-                */
+               
+                //divisor[Word_length_local - 1] = $random%2;
+                //dividend[Word_length_local - 1] = $random%2;
+                //divisor[23:10] = $random%8000;
+                //dividend[23:10] = $random%8000;
+                //divisor[Word_length_local:fractional_bits_local] = $random%120;
+                //dividend[Word_length_local:fractional_bits_local] = $random%120;
+               
             end
         end
     end  
-
+*/
     always
       #25 clk = !clk;
       
     initial
       begin
       #5;
-        divisor = 10; //'
-        dividend = 10; //';
+        assign dividend = {1'b0,7'd8,24'd0};
+        assign divisor  = {1'b0,7'd9,24'd0};
       /*
       #250;
         assign dividend = {1'b0,7'd8,24'd0};

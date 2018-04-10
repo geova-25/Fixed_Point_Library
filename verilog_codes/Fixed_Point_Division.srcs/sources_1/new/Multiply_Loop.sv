@@ -27,9 +27,9 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
     input reg [Word_length-1:0] dvd,
     input reg [Word_length-1:0] f,
     input wire signIn,
-    output reg signOut = 0,
-    output reg [Word_length-1:0] result = 0,
-    output reg readyToGo = 0
+    output reg signOut,
+    output reg [Word_length-1:0] result,
+    output reg readyToGo = 1
     );
 
 
@@ -46,8 +46,6 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
     wire ovr_f_x_dvr, ovr_f_x_dvd;
     reg [3:0] counter = 0;
     reg signal = 0;
-    reg finish = 0;
-    reg [1:0] init = 0;
     
    Multiplier #(.Q(fractional_bits),.N(Word_length)) multDVDF
       (
@@ -67,33 +65,24 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
        
     always @(posedge clk)  //This secuential block will do the goldschmidt algorithm for division
       begin
-        if(init == 0)
-            begin
-                init = init + 1;
-                readyToGo = 1;
-            end
-        else if (init == 1)
-            begin
-                init = init + 1;
-                readyToGo = 0;
-            end
-        else if((result_f_x_dvr[fractional_bits-1:0] == fractional_ones) && finish == 0)  //If the divisor is all ones in the fractional part then ir is ready to end
+        if(result_f_x_dvr[fractional_bits-1:0] == fractional_ones )  //If the divisor is all ones in the fractional part then ir is ready to end
           begin
             result = result_f_x_dvd; // The result is assign from the last multiplication
-            counter = 0;             // The counter is assigned to one because to avoid one cicle when assign the next one immediately 
-            signal = 0;              // Signal in one because we will jump one cicle
+            counter = 1;             // The counter is assigned to one because to avoid one cicle when assign the next one immediately 
+            signal = 1;              // Signal in one because we will jump one cicle
             readyToGo = 1;           // Signal that the algorithm ended
-            finish = 1;
+            dvdAux = dvd;            // Assign the next values
+            dvrAux = dvr;
           end
         else if(counter == 0 && go == 1) //This is for the first time that the algoritm takes a value
             begin
-            signal = 1;
-            dvdAux = dvd;
-            dvrAux = dvr;
-            signOut = signIn;
-            fAux = f;
-            counter = counter + 1;
-            readyToGo = 0;
+                signal = 1;         
+                dvdAux = dvd;
+                dvrAux = dvr;
+                signOut = signIn;
+                fAux = f;
+                counter = counter + 1;
+                readyToGo = 0;
             end
         else if(signal == 1)           //When signal is one and non of above is satisfy
           begin
@@ -102,27 +91,9 @@ module Multiply_Loop #(Word_length = 32,fractional_bits = 24) (
             fAux = {two,cero} - dvrAux;// Calculate the new aproximation
             counter = counter + 1;     //Add one to counter
             readyToGo = 0;             //No ready
-            finish = 0;
           end
         else
-            begin 
-            if (finish == 1)
-                begin
-                    readyToGo = 0;             //No ready
-                    counter = counter;
-                    finish = 0;
-                    dvdAux = 1;
-                    dvrAux = 1;
-                end
-            else       
-                begin
-                    readyToGo = readyToGo;         
-                    counter = 0;               // Otherwise counter is maintained in cero
-                    finish = finish;
-                    dvdAux = dvdAux;
-                    dvrAux = dvrAux;                    
-                end
-            end
+            counter = 0;               // Otherwise counter is maintained in cero
       end
 
 endmodule

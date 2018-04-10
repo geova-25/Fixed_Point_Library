@@ -34,15 +34,13 @@ module Sign_Detector #(parameter Word_length = 32)(
     wire [Word_length-1:0] complemented_number_A, complemented_number_B;
     reg  [Word_length-1:0] reg_A = 0;
     reg  [Word_length-1:0] reg_B = 0;
-    reg  initialRegA = 1;
-    reg  initialRegB = 1;
     
     //Combinational modules that sill calculate the cocmplemented values.
     
     Two_Complement #(.Word_length(Word_length)) TC1(Op_A_SD_In,complemented_number_A);
     Two_Complement #(.Word_length(Word_length)) TC2(Op_B_SD_In,complemented_number_B);
 
-    always @(posedge clk)  //This combinational block will assign the inside operands to register to operate later and calculate the sign
+    always @*  //This combinational block will assign the inside operands to register to operate later and calculate the sign
         begin
             reg_A = Op_A_SD_In;
             reg_B = Op_B_SD_In;
@@ -51,17 +49,15 @@ module Sign_Detector #(parameter Word_length = 32)(
 
     always @(posedge clk) //This secuential block willdetermine which operands should be ussing the complemented or the non complemented
         begin            
-            if(Op_A_SD_In[Word_length-1] == 1'b1 && (takeNextOperands == 1 || initialRegA == 1))  //If it is negative and the module has activated 
+            if(Op_A_SD_In[Word_length-1] == 1'b1 && takeNextOperands == 1)  //If it is negative and the module has activated 
                 begin
                     Op_A_SD_Out = complemented_number_A; //Assign complemented
                     startShifting = 1; //startShifting to activate shift
-                    initialRegA = 0;
                 end                       
-            else if (Op_A_SD_In[Word_length-1] != 1'b1 && (takeNextOperands == 1 || initialRegA == 1)) //If it is not negative but it is active
+            else if (Op_A_SD_In[Word_length-1] != 1'b1 && takeNextOperands == 1) //If it is not negative but it is active
                 begin
                     Op_A_SD_Out = Op_A_SD_In; //Assign non complemented 
                     startShifting = 1; //startShifting to activate shift
-                    initialRegA = 0;
                 end
             else
                 begin
@@ -74,15 +70,13 @@ module Sign_Detector #(parameter Word_length = 32)(
         
     always @(posedge clk)
         begin
-           if(Op_B_SD_In[Word_length-1] == 1'b1 && (takeNextOperands == 1 || initialRegB == 1))
+           if(Op_B_SD_In[Word_length-1] == 1'b1 && takeNextOperands == 1)
              begin
                  Op_B_SD_Out = complemented_number_B;
-                 initialRegB = 0;
              end
-         else if(Op_B_SD_In[Word_length-1] != 1'b1 && (takeNextOperands == 1 || initialRegB == 1))
+         else if(Op_B_SD_In[Word_length-1] != 1'b1 && takeNextOperands == 1)
              begin
                  Op_B_SD_Out = Op_B_SD_In;
-                 initialRegB = 0;
              end
          else
              begin                    

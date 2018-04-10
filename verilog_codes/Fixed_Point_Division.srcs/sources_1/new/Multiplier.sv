@@ -46,10 +46,10 @@ module Multiplier #(
 											//		with fixed point in same location...
 	
 //---------------------------------------------------------------------------------
-	always @(*)	
-	   begin						//	Do the multiply any time the inputs change
-          r_result <= i_multiplicand[N-2:0] * i_multiplier[N-2:0];					//		would introduce *big* errors
-          ovr <= 1'b0;															//	reset overflow flag to zero
+	always @(*)	begin						//	Do the multiply any time the inputs change
+		r_result <= i_multiplicand[N-2:0] * i_multiplier[N-2:0];	//	Removing the sign bits from the multiply - that 
+																					//		would introduce *big* errors	
+		ovr <= 1'b0;															//	reset overflow flag to zero
 		end
 	
 		//	This always block will throw a warning, as it uses a & b, but only acts on changes in result...
