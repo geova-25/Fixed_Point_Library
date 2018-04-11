@@ -21,22 +21,19 @@
 
 
 module Sign_Detector #(parameter Word_length = 32)(
-    input wire clk, 
-    input wire takeNextOperands,   //This signal indicates if the sign detector is readdy to go.
     input wire [Word_length-1:0] Op_A_SD_In, //The operands from the start
-    input wire [Word_length-1:0] Op_B_SD_In, 
+    input wire [Word_length-1:0] Op_B_SD_In,
     output reg [Word_length-1:0] Op_A_SD_Out  = 0, //The operands of the final
     output reg [Word_length-1:0] Op_B_SD_Out  = 0,
-    output reg sign = 0, //Sign calculated
-    output reg startShifting = 0 //Signal of startShifting when ended
+    output reg sign = 0 //Sign calculated
     );
 
     wire [Word_length-1:0] complemented_number_A, complemented_number_B;
     reg  [Word_length-1:0] reg_A = 0;
     reg  [Word_length-1:0] reg_B = 0;
-    
+
     //Combinational modules that sill calculate the cocmplemented values.
-    
+
     Two_Complement #(.Word_length(Word_length)) TC1(Op_A_SD_In,complemented_number_A);
     Two_Complement #(.Word_length(Word_length)) TC2(Op_B_SD_In,complemented_number_B);
 
@@ -47,41 +44,30 @@ module Sign_Detector #(parameter Word_length = 32)(
             sign = reg_A[Word_length-1] ^ reg_B[Word_length-1]; //Calculate the sign with xor
         end
 
-    always @(posedge clk) //This secuential block willdetermine which operands should be ussing the complemented or the non complemented
-        begin            
-            if(Op_A_SD_In[Word_length-1] == 1'b1 && takeNextOperands == 1)  //If it is negative and the module has activated 
+    always @* //This secuential block willdetermine which operands should be ussing the complemented or the non complemented
+        begin
+            if(Op_A_SD_In[Word_length-1] == 1'b1)  //If it is negative and the module has activated
                 begin
                     Op_A_SD_Out = complemented_number_A; //Assign complemented
-                    startShifting = 1; //startShifting to activate shift
-                end                       
-            else if (Op_A_SD_In[Word_length-1] != 1'b1 && takeNextOperands == 1) //If it is not negative but it is active
-                begin
-                    Op_A_SD_Out = Op_A_SD_In; //Assign non complemented 
-                    startShifting = 1; //startShifting to activate shift
                 end
-            else
+            else  //If it is not negative but it is active
                 begin
-                    Op_A_SD_Out = Op_A_SD_Out; //Continue the same
-                    startShifting = 0; //startShifting to deactivate shift
-                end                
+                    Op_A_SD_Out = Op_A_SD_In; //Assign non complemented
+                end
         end
-        
+
     //This block is exactly the same as the above but for operand B
-        
-    always @(posedge clk)
+
+    always @*
         begin
-           if(Op_B_SD_In[Word_length-1] == 1'b1 && takeNextOperands == 1)
+           if(Op_B_SD_In[Word_length-1] == 1'b1)
              begin
                  Op_B_SD_Out = complemented_number_B;
              end
-         else if(Op_B_SD_In[Word_length-1] != 1'b1 && takeNextOperands == 1)
+         else
              begin
                  Op_B_SD_Out = Op_B_SD_In;
              end
-         else
-             begin                    
-                 Op_B_SD_Out = Op_B_SD_Out;
-             end            
         end
 
 endmodule

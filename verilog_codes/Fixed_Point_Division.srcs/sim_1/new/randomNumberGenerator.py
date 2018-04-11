@@ -12,7 +12,7 @@ def generateRandomFloatsDecimalList():
     file = open("OperandsDecimal.txt","w")
     fileResultDecimalFloatingPoint = open("ResultDecimalFloatingPoint.txt","w")
     for x in range (0,20):
-        randomA = random.uniform(-0.0001,0.0001)
+        randomA = random.uniform(-0.001,0.001)
         randomB = random.uniform(-10,10)
         listRandomFloatsA.append(randomA)
         listRandomFloatsB.append(randomB)

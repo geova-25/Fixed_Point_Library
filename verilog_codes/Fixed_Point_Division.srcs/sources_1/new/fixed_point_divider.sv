@@ -25,6 +25,8 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     input wire [Word_length-1:0] divisor,
     input wire [Word_length-1:0] dividend,
     output reg [Word_length-1:0] result,
+    output wire [2*Word_length-1:0] dvdAux,
+    output wire [2*Word_length-1:0] dvrAux,
     output wire ready
     );
 
@@ -47,14 +49,11 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
     //---------------Module that detect and calculate the signs
 
     Sign_Detector #(.Word_length(Word_length)) Sign_Detector (
-      clk,
-      ready,
       dividend,
       divisor,
       SDI_Dvd_Out,
       SDI_Dvr_Out,
-      detectorSign,
-      startShifting
+      detectorSign
     );
 
     //-----------------Module that will to the shift of the operands
@@ -77,19 +76,25 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
         clk,
-        startShifting, //'
         shifted_dvr,
         shifted_dvd,
-        shifted_dvr,
         detectorSign,
         finalSign,
         Q,
-        ready
+        ready,
+        dvdAux,
+        dvrAux
       );
 
     //------------------Final sign assigment based on the initial calculation
 
 
-    Final_Sign_Usher #(.Word_length(Word_length)) Final_Sign_Usher(Q,finalSign,result);
+    Final_Sign_Usher #(.Word_length(Word_length)) Final_Sign_Usher(
+        clk,
+        Q,
+        finalSign,
+        ready,
+        result
+    );
 
 endmodule

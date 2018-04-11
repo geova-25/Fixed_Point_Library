@@ -27,23 +27,29 @@ module Test_FPDivider();
     reg [Word_length_local-1:0] dividend = 0;
     reg [Word_length_local -1:0] divisor = 0;
     wire [Word_length_local-1:0] result;
+    wire [2*Word_length_local-1:0] dvdAux;
+    wire [2*Word_length_local-1:0] dvrAux;
     wire ready;
     reg firstTime = 0;
-    reg [Word_length_local-1:0] testStringA;
-    reg [Word_length_local-1:0] testStringB;
+    reg [Word_length_local-1:0] testStringA=0;
+    reg [Word_length_local-1:0] testStringB=0;
+    reg [Word_length_local-1:0] two = {{(Word_length_local-fractional_bits_local-2){1'b0}},{2'b10},{fractional_bits_local{1'b0}}};
     int fdOpBin,fdReBin,scra,scrb,scwr;
     string opa,opb;
+    
+
     
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits_local)) FPD(
         clk,
         divisor,  //M
         dividend, //Q
-        result,
+        result,       
+        dvdAux,
+        dvrAux,
         ready
     );
     
 
-/*
 always
     begin 
     #50
@@ -79,15 +85,15 @@ always
             end
         end
     end  
-*/
+
     always
       #25 clk = !clk;
       
     initial
       begin
-      #5;
-        assign dividend = {1'b0,7'd8,24'd0};
-        assign divisor  = {1'b0,7'd9,24'd0};
+      //#5;
+       dividend = {1'b0,7'd8,24'd0};
+       divisor  = {1'b0,7'd9,24'd0};
       /*
       #250;
         assign dividend = {1'b0,7'd8,24'd0};
