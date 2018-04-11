@@ -1,0 +1,271 @@
+#-----------------------------------------------------------
+# Vivado v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:54:30 MST 2017
+# IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+# Start of session at: Sun Apr  8 23:19:53 2018
+# Process ID: 26045
+# Current directory: /home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new
+# Command line: vivado
+# Log file: /home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/vivado.log
+# Journal file: /home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2017.4/data/ip'.
+open_project: Time (s): cpu = 00:00:13 ; elapsed = 00:00:06 . Memory (MB): peak = 6047.832 ; gain = 104.430 ; free physical = 615 ; free virtual = 8937
+update_compile_order -fileset sources_1
+launch_simulation -mode post-synthesis -type functional
+INFO: [Vivado 12-5682] Launching post-synthesis functional simulation in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7z020clg484-1
+INFO: [Netlist 29-17] Analyzing 67 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2017.4
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+open_run: Time (s): cpu = 00:00:22 ; elapsed = 00:00:34 . Memory (MB): peak = 6464.367 ; gain = 393.523 ; free physical = 203 ; free virtual = 8427
+INFO: [SIM-utils-24] Writing simulation netlist file for design 'synth_1'...
+INFO: [SIM-utils-25] write_verilog -mode funcsim -nolib -force -file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v"
+INFO: [SIM-utils-36] Netlist generated:/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v
+INFO: [SIM-utils-54] Inspecting design source files for 'Test_FPDivider' in fileset 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+xvlog --incr --relax -L xil_defaultlib -prj Test_FPDivider_vlog.prj
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shifter
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: /opt/Xilinx/Vivado/2017.4/bin/unwrapped/lnx64.o/xelab -wto eccb0f7e0e8e45b3bf496af7fac3bc87 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L secureip --snapshot Test_FPDivider_func_synth xil_defaultlib.Test_FPDivider xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.Two_Complement
+Compiling module xil_defaultlib.Sign_Detector
+Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.x_lut3_mux8
+Compiling module unisims_ver.LUT3
+Compiling module unisims_ver.FDRE_default
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.FDRE(INIT=1'b1)
+Compiling module unisims_ver.OBUF
+Compiling module unisims_ver.x_lut2_mux4
+Compiling module unisims_ver.LUT2
+Compiling module xil_defaultlib.shifter
+Compiling module xil_defaultlib.Multiplier
+Compiling module xil_defaultlib.Multiply_Loop
+Compiling module xil_defaultlib.Final_Sign_Usher
+Compiling module xil_defaultlib.fixed_point_divider
+Compiling module xil_defaultlib.Test_FPDivider
+Compiling module xil_defaultlib.glbl
+ERROR: [XSIM 43-3409] Failed to compile generated C file xsim.dir/Test_FPDivider_func_synth/obj/xsim_1.c.
+ERROR: [XSIM 43-3915] Encountered a fatal error. Cannot continue. Exiting... 
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+launch_simulation: Time (s): cpu = 00:00:32 ; elapsed = 00:00:39 . Memory (MB): peak = 6466.363 ; gain = 395.520 ; free physical = 220 ; free virtual = 8391
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+launch_simulation -mode post-synthesis -type functional
+INFO: [Vivado 12-5682] Launching post-synthesis functional simulation in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-24] Writing simulation netlist file for design 'synth_1'...
+INFO: [SIM-utils-25] write_verilog -mode funcsim -nolib -force -file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v"
+INFO: [SIM-utils-36] Netlist generated:/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v
+INFO: [SIM-utils-54] Inspecting design source files for 'Test_FPDivider' in fileset 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+xvlog --incr --relax -L xil_defaultlib -prj Test_FPDivider_vlog.prj
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shifter
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: /opt/Xilinx/Vivado/2017.4/bin/unwrapped/lnx64.o/xelab -wto eccb0f7e0e8e45b3bf496af7fac3bc87 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L secureip --snapshot Test_FPDivider_func_synth xil_defaultlib.Test_FPDivider xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.Two_Complement
+Compiling module xil_defaultlib.Sign_Detector
+Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.x_lut3_mux8
+Compiling module unisims_ver.LUT3
+Compiling module unisims_ver.FDRE_default
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.FDRE(INIT=1'b1)
+Compiling module unisims_ver.OBUF
+Compiling module unisims_ver.x_lut2_mux4
+Compiling module unisims_ver.LUT2
+Compiling module xil_defaultlib.shifter
+Compiling module xil_defaultlib.Multiplier
+Compiling module xil_defaultlib.Multiply_Loop
+Compiling module xil_defaultlib.Final_Sign_Usher
+Compiling module xil_defaultlib.fixed_point_divider
+Compiling module xil_defaultlib.Test_FPDivider
+Compiling module xil_defaultlib.glbl
+ERROR: [XSIM 43-3409] Failed to compile generated C file xsim.dir/Test_FPDivider_func_synth/obj/xsim_1.c.
+ERROR: [XSIM 43-3915] Encountered a fatal error. Cannot continue. Exiting... 
+INFO: [USF-XSim-69] 'elaborate' step finished in '1' seconds
+INFO: [USF-XSim-99] Step results log file:'/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+close_design
+launch_simulation -mode post-synthesis -type functional
+INFO: [Vivado 12-5682] Launching post-synthesis functional simulation in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7z020clg484-1
+INFO: [Netlist 29-17] Analyzing 67 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2017.4
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [SIM-utils-24] Writing simulation netlist file for design 'synth_1'...
+INFO: [SIM-utils-25] write_verilog -mode funcsim -nolib -force -file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v"
+INFO: [SIM-utils-36] Netlist generated:/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v
+INFO: [SIM-utils-54] Inspecting design source files for 'Test_FPDivider' in fileset 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+xvlog --incr --relax -L xil_defaultlib -prj Test_FPDivider_vlog.prj
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shifter
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: /opt/Xilinx/Vivado/2017.4/bin/unwrapped/lnx64.o/xelab -wto eccb0f7e0e8e45b3bf496af7fac3bc87 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L secureip --snapshot Test_FPDivider_func_synth xil_defaultlib.Test_FPDivider xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.Two_Complement
+Compiling module xil_defaultlib.Sign_Detector
+Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.x_lut3_mux8
+Compiling module unisims_ver.LUT3
+Compiling module unisims_ver.FDRE_default
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.FDRE(INIT=1'b1)
+Compiling module unisims_ver.OBUF
+Compiling module unisims_ver.x_lut2_mux4
+Compiling module unisims_ver.LUT2
+Compiling module xil_defaultlib.shifter
+Compiling module xil_defaultlib.Multiplier
+Compiling module xil_defaultlib.Multiply_Loop
+Compiling module xil_defaultlib.Final_Sign_Usher
+Compiling module xil_defaultlib.fixed_point_divider
+Compiling module xil_defaultlib.Test_FPDivider
+Compiling module xil_defaultlib.glbl
+ERROR: [XSIM 43-3409] Failed to compile generated C file xsim.dir/Test_FPDivider_func_synth/obj/xsim_1.c.
+ERROR: [XSIM 43-3915] Encountered a fatal error. Cannot continue. Exiting... 
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+launch_simulation: Time (s): cpu = 00:00:11 ; elapsed = 00:00:07 . Memory (MB): peak = 6872.773 ; gain = 67.523 ; free physical = 235 ; free virtual = 7734
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+[Sun Apr  8 23:23:51 2018] Launched synth_1...
+Run output will be captured here: /home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.runs/synth_1/runme.log
+close_design
+launch_simulation -mode post-synthesis -type functional
+INFO: [Vivado 12-5682] Launching post-synthesis functional simulation in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7z020clg484-1
+INFO: [Netlist 29-17] Analyzing 67 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2017.4
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [SIM-utils-24] Writing simulation netlist file for design 'synth_1'...
+INFO: [SIM-utils-25] write_verilog -mode funcsim -nolib -force -file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v"
+INFO: [SIM-utils-36] Netlist generated:/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v
+INFO: [SIM-utils-54] Inspecting design source files for 'Test_FPDivider' in fileset 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+xvlog --incr --relax -L xil_defaultlib -prj Test_FPDivider_vlog.prj
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/Test_FPDivider_func_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shifter
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: /opt/Xilinx/Vivado/2017.4/bin/unwrapped/lnx64.o/xelab -wto eccb0f7e0e8e45b3bf496af7fac3bc87 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L secureip --snapshot Test_FPDivider_func_synth xil_defaultlib.Test_FPDivider xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.Two_Complement
+Compiling module xil_defaultlib.Sign_Detector
+Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.x_lut3_mux8
+Compiling module unisims_ver.LUT3
+Compiling module unisims_ver.FDRE_default
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.FDRE(INIT=1'b1)
+Compiling module unisims_ver.OBUF
+Compiling module unisims_ver.x_lut2_mux4
+Compiling module unisims_ver.LUT2
+Compiling module xil_defaultlib.shifter
+Compiling module xil_defaultlib.Multiplier
+Compiling module xil_defaultlib.Multiply_Loop
+Compiling module xil_defaultlib.Final_Sign_Usher
+Compiling module xil_defaultlib.fixed_point_divider
+Compiling module xil_defaultlib.Test_FPDivider
+Compiling module xil_defaultlib.glbl
+ERROR: [XSIM 43-3409] Failed to compile generated C file xsim.dir/Test_FPDivider_func_synth/obj/xsim_1.c.
+ERROR: [XSIM 43-3915] Encountered a fatal error. Cannot continue. Exiting... 
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or '/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.sim/sim_1/synth/func/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+launch_simulation: Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 6896.539 ; gain = 23.766 ; free physical = 674 ; free virtual = 7719
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+exit
+INFO: [Common 17-206] Exiting Vivado at Sun Apr  8 23:25:48 2018...
