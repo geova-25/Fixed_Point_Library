@@ -9,14 +9,20 @@ listOfResultsFixed = []
 listOfOperandsA = []
 listOfOperandsB = []
 listOfErrorPercentage = []
+listOfClockCicles = []
 
 fileResultForPlotting = open("ResultsForPlotting.data","w")
 fileOperandsDecimal = open("OperandsDecimal.txt","r")
+fileClockCicles = open("ResultClocks.txt","r")
 
 for line in fileOperandsDecimal:
     listaNew = line.split(' ')
     listOfOperandsA.append(float(listaNew[0]))
     listOfOperandsB.append(float(listaNew[3]))
+
+for line in fileClockCicles:
+    listOfClockCicles.append(float(line))
+
 
 #print "List of listOfOperandsA: \n", listOfOperandsA
 #print "List of listOfOperandsB: \n", listOfOperandsB
@@ -35,22 +41,32 @@ for x in range(0,len(listOfResultsFloating)):
     fileResultForPlotting.write(str(listOfResultsFloating[x]) + " " + str(listOfResultsFixed[x]) + " \n")
     listOfErrorPercentage.append((abs(listOfResultsFloating[x] - listOfResultsFixed[x]) / abs(listOfResultsFloating[x])) * 100)
 print "listOfErrorPercentage: ", listOfErrorPercentage
+print "listOfClockCicles: ", listOfClockCicles
+
 fig = plt.figure()
+#ay = fig.add_subplot(111, projection='3d')
 ax = fig.add_subplot(111, projection='3d')
 #----------------------Plot values
 #ax.scatter(listOfOperandsA, listOfOperandsB, listOfResultsFloating)
 #ax.scatter(listOfOperandsA, listOfOperandsB, listOfResultsFixed)
 #----------------------Plot ErrorPercentage
-ax.scatter(listOfOperandsA, listOfOperandsB, listOfErrorPercentage)
+#ax.scatter(listOfOperandsA, listOfOperandsB, listOfErrorPercentage)
+ax.scatter(listOfOperandsA, listOfOperandsB, listOfClockCicles)
 
 ax.set_xlabel('A Operand')
 ax.set_ylabel('B Operand')
-ax.set_zlabel('Error %')
+#ax.set_zlabel('Error %')
 
 #plt.plot(listOfResultsFloating, listOfResultsFixed)
 #---------------------------------------Gnu Plotting (Faster but uglier)
 #g = Gnuplot.Gnuplot()
+
+#ay.set_xlabel('A Operand')
+#ay.set_ylabel('B Operand')
+ax.set_zlabel('Clock Cicles')
+
 plt.show()
+
 '''
 g.title(stringTitle)
 g.xlabel(stringA)

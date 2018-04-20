@@ -25,17 +25,27 @@ module Final_Sign_Usher #(parameter Word_length = 32) (
     input wire [Word_length-1:0] Dividend,
     input wire sign,
     input wire changeFlag,
-    output reg [Word_length-1:0] Result
+    output reg [Word_length-1:0] Result,
+    output reg ready = 0
     );
 
     always @(posedge clk)
       begin
         if(sign == 1'b1 && changeFlag == 1) //'
-            Result = ~Dividend + 1'b1; //'
+            begin
+                ready = 1;
+                Result = ~Dividend + 1'b1; //'
+            end
         else if(sign == 0 && changeFlag == 1)
-            Result = Dividend;
+            begin
+                ready = 1;
+                Result = Dividend;
+            end
         else
-            Result = Result;
+            begin
+                ready = 0;
+                Result = Result;
+            end
       end
 
 endmodule   

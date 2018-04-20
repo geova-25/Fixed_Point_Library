@@ -13,12 +13,11 @@ def generateRandomFloatsDecimalList():
     fileResultDecimalFloatingPoint = open("ResultDecimalFloatingPoint.txt","w")
     for x in range (0,20):
         randomA = random.uniform(-0.001,0.001)
-        randomB = random.uniform(-10,10)
+        randomB = random.uniform(-20,20)
         listRandomFloatsA.append(randomA)
         listRandomFloatsB.append(randomB)
         file.write(str(format(randomA, '.10f')) + "   " + str(format(randomB, '.10f')) + " \n")
-        division = randomA/randomB
-        fileResultDecimalFloatingPoint.write(str(format(division,'.10f'))+ " \n")
+        fileResultDecimalFloatingPoint.write(str(format(randomA/randomB,'.10f') + " \n"))
         generateRandomBinaryList(listRandomFloatsA, listRandomFloatsB)
     file.close()
 

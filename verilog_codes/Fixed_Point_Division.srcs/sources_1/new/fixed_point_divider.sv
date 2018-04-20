@@ -20,17 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
-    input clk,
+module fixed_point_divider #(parameter Word_length = 64, fractional_bits = 56) (
+    input wire clk, rst_n,
+    input wire active,
     input wire [Word_length-1:0] divisor,
     input wire [Word_length-1:0] dividend,
     output reg [Word_length-1:0] result,
     output wire [2*Word_length-1:0] dvdAux,
     output wire [2*Word_length-1:0] dvrAux,
-    output wire ready
+    output wire ready,
+    output wire processing
     );
+    
+    //parameter Word_length = 64;
+    //parameter fractional_bits = 56;
 
-
+    wire ready_Multiply_Loop;
     wire [Word_length-1:0] Q;
     wire [Word_length-1:0] shifted_dvd;
     wire [Word_length-1:0] shifted_dvr;
@@ -76,14 +81,16 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
         clk,
+        active,
         shifted_dvr,
         shifted_dvd,
         detectorSign,
         finalSign,
         Q,
-        ready,
+        ready_Multiply_Loop,
         dvdAux,
-        dvrAux
+        dvrAux,
+        processing
       );
 
     //------------------Final sign assigment based on the initial calculation
@@ -93,8 +100,9 @@ module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24)(
         clk,
         Q,
         finalSign,
-        ready,
-        result
+        ready_Multiply_Loop,
+        result,
+        ready
     );
 
 endmodule
