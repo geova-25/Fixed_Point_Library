@@ -46,15 +46,16 @@ module Test_FPDivider();
 
     
     fixed_point_divider #(.Word_length(Word_length_local),.fractional_bits(fractional_bits_local)) FPD(
-        clk,
-        active,
-        divisor,  //M
-        dividend, //Q
-        result,       
-        dvdAux,
-        dvrAux,
-        ready,
-        processing
+        .clk(clk),
+        .rst_n(),
+        .active(active),
+        .divisor(divisor),  //M
+        .dividend(dividend), //Q
+        .result(result),
+        .dvdAux(),
+        .dvrAux(),
+        .ready(ready),
+        .processing(processing)
     );
     
 
@@ -85,22 +86,16 @@ always @(posedge clk)
             fdClk = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/ResultClocks.txt","a+");                
             if(firstTime == 1)
                 begin
-                    //$display("result1: %d",result);
                     firstTime = 0;
-                    //fdOpBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/OperandsBinary.txt","r");                  
-                    //fdReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/ResultBinary.txt","w+");
                     scra = $fscanf(fdOpBin,"%b",testStringA);
                     scrb = $fscanf(fdOpBin,"%b",testStringB);
                     divisor = testStringB;
-                    dividend = testStringA;                    
-                    //$display("%b",testStringA); 
-                    //$display("%b",testStringB);                    
+                    dividend = testStringA;                                    
                     $fclose(fdReBin);
                     counter = 0;
                 end
             else
-                begin                               
-                    //fdReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Division/Fixed_Point_Division.srcs/sim_1/new/ResultBinary.txt","a+");               
+                begin                                          
                     scra = $fscanf(fdOpBin,"%b",testStringA);
                     scrb = $fscanf(fdOpBin,"%b",testStringB);
                     $display("scra: %d",scra); 
@@ -124,12 +119,6 @@ always @(posedge clk)
                     $fclose(fdReBin);
                     $fclose(fdClk);
                    
-                    //divisor[Word_length_local - 1] = $random%2;
-                    //dividend[Word_length_local - 1] = $random%2;
-                    //divisor[23:10] = $random%8000;
-                    //dividend[23:10] = $random%8000;
-                    //divisor[Word_length_local:fractional_bits_local] = $random%120;
-                    //dividend[Word_length_local:fractional_bits_local] = $random%120;
                    
                 end
         end
@@ -143,20 +132,6 @@ always @(posedge clk)
       //#5;
        dividend = 0;
        divisor  = 0;
-      /*
-      #250;
-        assign dividend = {1'b0,7'd8,24'd0};
-        assign divisor  = {1'b0,7'd9,24'd0};
-      #300;
-        assign dividend = {1'b1,7'd3,24'd0};
-        assign divisor  = {1'b0,7'd27,24'd0};
-      #300;
-        assign dividend = {1'b1,7'd1,24'd0};
-        assign divisor  = {1'b1,7'd5,24'd0};        
-     
-        //assign dividend = {1'b0,7'd0,3'b101,21'd0};
-        //assign divisor  = {1'b0,7'd0,3'b111,21'd0};
-      */        
       end
 
 endmodule

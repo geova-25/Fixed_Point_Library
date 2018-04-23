@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module fixed_point_divider #(parameter Word_length = 64, fractional_bits = 56) (
+module fixed_point_divider #(parameter Word_length = 32, fractional_bits = 24) (
     input wire clk, rst_n,
     input wire active,
     input wire [Word_length-1:0] divisor,
@@ -69,14 +69,7 @@ module fixed_point_divider #(parameter Word_length = 64, fractional_bits = 56) (
        shifted_dvd,
        shifted_dvr
        );
-/*
-    shifter #(.Word_length(Word_length), .fractional_bits(fractional_bits)) SHF (
-        SDI_Dvd_Out ,
-        SDI_Dvr_Out,
-        shifted_dvd,
-        shifted_dvr
-        );
-*/
+       
      //-----------------Loop of the Goldschmidt Algorithm
 
       Multiply_Loop #(.Word_length(Word_length),.fractional_bits(fractional_bits)) ML (
