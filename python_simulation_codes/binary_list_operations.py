@@ -1,4 +1,4 @@
-
+import mathFixedPointOperations as mt
 def fill_array_sized(array, value, bits_quantity):
     for x in range(0,bits_quantity):
         array.append(value)
@@ -14,27 +14,44 @@ def binary_list_to_string(binList):
 def binary_list_to_number(list_number, fractBits,intBits):
     totalData = list_number
     result = 0
+    listOne = [0]*(fractBits+intBits)
+    listOne[fractBits+intBits-1] = 1
+    if(list_number[0] == 1):
+        for x in range(0,len(list_number)):
+            list_number[x] = not list_number[x]
+        result = mt.add_binary(list_number,listOne,fractBits+intBits)
+        result = -1*(binary_list_to_number_Aux(result,fractBits,intBits))
+    else:
+        result = binary_list_to_number_Aux(list_number,fractBits,intBits)
+    return result
+
+def binary_list_to_number_Aux(list_number,fractBits,intBits):
+    totalData = list_number
+    result = 0
     for x in range(0, intBits):
         result += totalData[x]*2**(intBits-1-x)
     for x in range(0, fractBits):
         result += totalData[x+intBits]*2**-(x+1)
+    if(list_number[0] == 1):
+        result  = result * -1
     return result
 
 def decimal_to_binary_list(decNumber,fractBits,intBits):
     intData   = [0]*intBits
     fractData = [0]*fractBits
+    listOne = [0]*(fractBits+intBits)
     totalData = []
     onlyDec = int(abs(decNumber))
     onlyFractional = abs(decNumber) - onlyDec
     for x in range(0, fractBits):
-        print "onlyFractional: ", onlyFractional
+        #print "onlyFractional: ", onlyFractional
         newBinaryDigit = int(onlyFractional*2)
-        print "newBinaryDigit: ", newBinaryDigit
+        #print "newBinaryDigit: ", newBinaryDigit
         onlyFractional = onlyFractional*2 - int(onlyFractional*2)
         fractData[x] = newBinaryDigit
     onlyDec = bin(onlyDec)[2:]
-    print "onlyDec: ", onlyDec
-    print "len onlyDec: ", len(onlyDec)
+    #print "onlyDec: ", onlyDec
+    #print "len onlyDec: ", len(onlyDec)
     for x in range(0, intBits):
         if(x<len(onlyDec)):
             intData[intBits-1-x] = int(onlyDec[len(onlyDec)-1-x])
@@ -42,9 +59,11 @@ def decimal_to_binary_list(decNumber,fractBits,intBits):
     #self.totalData.append('.')
     totalData.extend(fractData)
     if(decNumber < 0):
-        totalData[fractBits + intBits - 1] = 1
-    else
-        totalData[fractBits + intBits - 1] = 0
+        for x in range(0,len(totalData)):
+            totalData[x] = not totalData[x]
+        totalData = mt.add_binary(totalData,listOne,fractBits+intBits)
+    else:
+        totalData[0] = 0
     return totalData
 
 #---------------Test converting binary_list to number and back
