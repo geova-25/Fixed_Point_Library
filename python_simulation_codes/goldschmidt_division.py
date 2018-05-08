@@ -1,7 +1,11 @@
 import FixedPoint
 from operator import mul
 import fixed_point_operations as fpOp
+import binary_list_operations as blop
 import math
+
+
+string_to_format = "{0:." +str(12)+"f}"
 
 active_prints = 1
 def printGolds(a,b):
@@ -44,6 +48,9 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
         fAproximation = Divisor
         #Divisor_Aux = Divisor_Aux >> 1
         #fAproximation = Divisor_Aux >> 1
+    Dividend = FixedPoint.FXnum(Dividend,Family)
+    Divisor = FixedPoint.FXnum(Divisor,Family)
+    fAproximation = FixedPoint.FXnum(fAproximation,Family)
     printGolds("fAproximation: ", string_to_format.format(float(fAproximation)))
     printGolds("Divisor: ", string_to_format.format(float(Divisor)))
     printGolds("Dividend: ", string_to_format.format(float(Dividend)))
@@ -80,10 +87,25 @@ def goldschmidt_division(dividendo,divisor,fractional,integer):
 
 #-----------------------------test
 
-A = 0.5
+A = 86
 B = 7
 
-division_Result = goldschmidt_division(A,B,24,8)
+division_Result = goldschmidt_division(A,B,12,8)
+
+
+'''-----------------This is how the fixed point library really works
+Family = FixedPoint.FXfamily(12,8)
+Dividend = FixedPoint.FXnum(A,Family)
+Divisor = FixedPoint.FXnum(B,Family)
+A = blop.binary_list_to_number(blop.decimal_to_binary_list(1.02124023437,12,8),12,8)
+B = blop.binary_list_to_number(blop.decimal_to_binary_list(12.02978515625,12,8),12,8)
+print A
+print  string_to_format.format(float(Dividend*Divisor))
+'''
+
+#print  string_to_format.format(A*B)
+
+
 
 #printGolds("Real: ", division_Result[0])
 #printGolds("Result: ", division_Result[2])
