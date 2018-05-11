@@ -40,7 +40,7 @@ module Test_Fp_Exponential(
     );
     
     initial begin 
-        Operand = {17'd5,15'b0100_0000_0000_000};
+        Operand = {17'd0,15'd8930};
         end
     
 endmodule

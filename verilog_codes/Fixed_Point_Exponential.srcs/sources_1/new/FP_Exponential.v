@@ -36,8 +36,8 @@ module FP_Exponential #(parameter Word_length = 32, fractional_bits = 15)(
     //wire [Word_length-1:0] fLUTValue;
     //wire [Word_length-1:0] iLUTValue;
     
-    localparam c3 = 3;
-    localparam c4 = 3;
+    localparam c3 = 32'b00000000000000000001010101010100;
+    localparam c4 = 32'b00000000000000000000010110000000;
     
     
     Int_LUT #(.Word_length(Word_length), .fractional_bits(fractional_bits)) int_LUT (
@@ -65,17 +65,17 @@ module FP_Exponential #(parameter Word_length = 32, fractional_bits = 15)(
     always @(*)
         begin
             x1 = Operand[bitsOfPolinomialCalc-1:0];
-            x2 = x1*x1;
-            x3 = x2*x1;
-            x4 = x3*x1;
+            x2 = x1*x1 >> 15;
+            x3 = x2*x1 >> 15;
+            x4 = x3*x1 >> 15;
             
-            x1 = x1 * fLUTValue;
-            x2 = x2 * fLUTValue;
-            x3 = x3 * fLUTValue;
-            x4 = x4 * fLUTValue;
+            x1 = x1 * fLUTValue >> 15;;
+            x2 = x2 * fLUTValue >> 15;;
+            x3 = x3 * fLUTValue >> 15;;
+            x4 = x4 * fLUTValue >> 15;;
             
-            x3 = x3 * c3;
-            x4 = x4 * c4;
+            x3 = x3 * c3 >> 15;
+            x4 = x4 * c4 >> 15;
             
             x4 = fLUTValue + x1 + x2 + x3 + x4;
             

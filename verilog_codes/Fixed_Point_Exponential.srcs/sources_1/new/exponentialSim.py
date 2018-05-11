@@ -100,6 +100,27 @@ for x in range(0,64):
 fileFractLut.close()
 fileIntLut.close()
 
+c3Num = 2**-3 + 2**-5 + 2**-7 + 2**-9 + 2**-11 + 2**-13;
+c4Num = 2**-5 + 2**-7 + 2**-8
+
+c3 = blop.decimal_to_binary_list(c3Num,fractional_bits,integer_bits)
+c4 = blop.decimal_to_binary_list(c4Num,fractional_bits,integer_bits)
+c3BinaryData = ''
+c4BinaryData = ''
+c3List = []
+c4List = []
+
+for x in range(0,len(c3)):
+    c3BinaryData += str(c3[x])
+    c4BinaryData += str(c4[x])
+
+
+print "-----------------c3: ", c3
+print "-----------------c4: ", c4
+print "-----------------c3BinaryData: ", c3BinaryData
+print "-----------------c4BinaryData: ", c4BinaryData
+print "c3Num: ", c3Num
+print "c4Num: ", c4Num
 print "-------------Fractional list----------------"
 print "-------------Binary----------------"
 #print "      1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29 30"
