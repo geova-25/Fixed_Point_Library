@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Int_LUT #(parameter Word_length = 32, fractional_bits = 24)(
+module Int_LUT #(parameter Word_length = 32, fractional_bits = 15)(
     input wire [Word_length-fractional_bits-1:0] address,
     output reg [Word_length-1:0] value
     );

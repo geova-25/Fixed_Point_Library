@@ -29,14 +29,18 @@ module Test_Fp_Exponential(
     
     reg [Word_length-1: 0] Operand;
     reg [Word_length-1: 0] Result;
+    reg [Word_length-1: 0] fLUTValue;
+    reg [Word_length-1: 0] iLUTValue;
     
     FP_Exponential #(.Word_length(32), .fractional_bits(24)) FP_Exponential(
         .Operand(Operand),
-        .Result(Result)
+        .Result(Result),
+        .fLUTValue(fLUTValue),
+        .iLUTValue(iLUTValue)
     );
     
     initial begin 
-        Operand = {23'b0,9'b000000000};
+        Operand = {17'd5,15'b0100_0000_0000_000};
         end
     
 endmodule

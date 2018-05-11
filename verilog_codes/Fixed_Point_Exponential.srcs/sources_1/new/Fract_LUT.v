@@ -22,12 +22,15 @@
 
 module Fract_LUT #(parameter Word_length = 32)(
     input wire [5:0] address,
-    output wire [Word_length-1:0] value 
+    output reg [Word_length-1:0] value 
     );
     
     reg [Word_length-1:0] LUT [0:63];   
     
-    assign value = LUT[address];
+    always @*
+        begin
+            value = LUT[address];
+        end
     
     initial
      begin

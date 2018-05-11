@@ -34,6 +34,7 @@ listOfIntegerExpBin = []
 listOfFractionalExpBin = []
 
 #---------------------------Integer Lut
+
 fileIntLut = open("binaryIntegerLUT.data","w")
 aux = []
 for x in range(0,15):
@@ -63,16 +64,37 @@ fileFractLut = open("binaryFractionalLUT.data","w")
 
 aux = []
 for x in range(0,64):
-    floatResult = exp(float('0.'+ str(x)))
-    binaryResult = blop.decimal_to_binary_list(floatResult,fractional_bits,integer_bits)
-    fixedResult = blop.binary_list_to_number(binaryResult,fractional_bits,integer_bits)
+    testNumber = blop.decimal_to_binary_list(x,0,quantityOfLUTBits+1)
+    resultPerNumber = 0
+    counterPerBits = 1
+    first = True
+    print "----------------------------------------------", x, "---------------------------------------------"
+    for bit in testNumber:
+        if(not first):
+            print "bit: ", bit
+            resultPerNumber = resultPerNumber + 2**(-counterPerBits) * int(bit)
+            print "resultPerNumber: ", resultPerNumber
+            counterPerBits += 1
+        else:
+            first = False
+    first = True
+    expResult = float(exp(float(resultPerNumber)))
+    expResultList = blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits)
+
+    print "listOriginal: ", testNumber
+    print "listExp: ", expResultList
+    print x, " : ", resultPerNumber
+    print "exp(x): ", x , ": " , expResult
+    print "exp(x) Fixed : ", x , ": " , blop.binary_list_to_number(expResultList,fractional_bits,integer_bits)
+
+
+    binaryResult = blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits)
     newBinaryData = ''
     #for x in range(len(binaryResult)-fractional_bits, len(binaryResult)):
     for x in range(0,len(binaryResult)):
         newBinaryData += str(binaryResult[x])
-    listOfFractionalExp.append(fixedResult)
+    listOfFractionalExp.append(expResult)
     listOfFractionalExpBin.append(newBinaryData)
-
     fileFractLut.write(newBinaryData + '\n')
 
 fileFractLut.close()
@@ -80,7 +102,7 @@ fileIntLut.close()
 
 print "-------------Fractional list----------------"
 print "-------------Binary----------------"
-print "      1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29 30"
+#print "      1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29 30"
 print
 println(listOfFractionalExpBin)
 print "-------------Float----------------"
