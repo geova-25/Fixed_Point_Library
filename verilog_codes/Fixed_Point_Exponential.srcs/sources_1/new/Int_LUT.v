@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Int_LUT #(parameter Word_length = 32, fractional_bits = 15)(
+module Int_LUT #(parameter Word_length = 32, fractional_bits = 15, typeS = 1)(
     input wire [Word_length-fractional_bits-1:0] address,
     output reg [Word_length-1:0] value
     );
@@ -32,7 +32,7 @@ module Int_LUT #(parameter Word_length = 32, fractional_bits = 15)(
         begin
             if(address[Word_length-fractional_bits-1] == 1'b1 || address > maxIntegerAvailable)
                 begin
-                    value = 32'b0;
+                    value = {{Word_length-fractional_bits-1{1'b0}},{1'b1},{fractional_bits{1'b0}}};
                 end
             else
                 begin
@@ -41,7 +41,11 @@ module Int_LUT #(parameter Word_length = 32, fractional_bits = 15)(
         end
     
     initial
-    begin
-        $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryIntegerLUT.data", LUT);
+     begin
+        if(typeS == 1)
+            $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryIntegerLUTPositive.data", LUT);
+        else
+            $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryIntegerLUTNegative.data", LUT);            
     end
+     
 endmodule

@@ -34,23 +34,29 @@ listOfIntegerExpBin = []
 listOfFractionalExpBin = []
 
 #---------------------------Integer Lut
+def fillIntLutTable(sign):
+    if (sign > 0):
+        fileIntLut = open("binaryIntegerLUTPositive.data","w")
+    else:
+        fileIntLut = open("binaryIntegerLUTNegative.data","w")
+    for x in range(0,15):
+        floatResult = exp(sign * x)
+        binaryResult = blop.decimal_to_binary_list(floatResult,fractional_bits,integer_bits)
+        fixedResult = blop.binary_list_to_number(binaryResult,fractional_bits,integer_bits)
+        newBinaryData = ''
+        #for x in range(0,len(binaryResult)-fractional_bits):
+        #    newBinaryData += str(binaryResult[x])
+        for x in range(0,len(binaryResult)):
+            newBinaryData += str(binaryResult[x])
+        listOfIntegerExp.append(fixedResult)
+        listOfIntegerExpBin.append(newBinaryData)
+        #listOfIntegerExpBin.append(binaryResult)
 
-fileIntLut = open("binaryIntegerLUT.data","w")
-aux = []
-for x in range(0,15):
-    floatResult = exp(x)
-    binaryResult = blop.decimal_to_binary_list(floatResult,fractional_bits,integer_bits)
-    fixedResult = blop.binary_list_to_number(binaryResult,fractional_bits,integer_bits)
-    newBinaryData = ''
-    #for x in range(0,len(binaryResult)-fractional_bits):
-    #    newBinaryData += str(binaryResult[x])
-    for x in range(0,len(binaryResult)):
-        newBinaryData += str(binaryResult[x])
-    listOfIntegerExp.append(fixedResult)
-    listOfIntegerExpBin.append(newBinaryData)
-    #listOfIntegerExpBin.append(binaryResult)
+        fileIntLut.write(newBinaryData + '\n')
+    fileIntLut.close()
 
-    fileIntLut.write(newBinaryData + '\n')
+fillIntLutTable(-1)
+fillIntLutTable(1)
 
 print "-------------Integer list----------------"
 print "-------------Binary----------------"
@@ -60,45 +66,73 @@ println(listOfIntegerExp)
 
 #---------------------------Fractional Lut
 
-fileFractLut = open("binaryFractionalLUT.data","w")
+def fillFractLutTable(sign):
+    listOfFractionalExp = []
+    listOfFractionalExpBin = []
+    expResultList = []
+    if(sign > 0):
+        fileFractLut = open("binaryFractionalLUTPositive.data","w")
+        fileFractLutDec = open("binaryFractionalLUTPositiveDecimal.data","w")
+    else:
+        fileFractLut = open("binaryFractionalLUTNegative.data","w")
+        fileFractLutDec = open("binaryFractionalLUTNegativeDecimal.data","w")
+    for x in range(0,64):
+        testNumber = blop.decimal_to_binary_list(x,0,quantityOfLUTBits+1)
+        resultPerNumber = 0
+        counterPerBits = 1
+        first = True
+        print "----------------------------------------------", x, "---------------------------------------------"
+        for bit in testNumber:
+            if(not first):
+                print "bit: ", bit
+                resultPerNumber = resultPerNumber + 2**(-counterPerBits) * int(bit)
+                print "resultPerNumber: ", resultPerNumber
+                counterPerBits += 1
+            else:
+                first = False
+        first = True
+        resultPerNumber = resultPerNumber * (sign)
+        expResult = float(exp(float(resultPerNumber)))
+        expResultList.append(blop.binary_list_to_number(blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits),fractional_bits,integer_bits))
 
-aux = []
-for x in range(0,64):
-    testNumber = blop.decimal_to_binary_list(x,0,quantityOfLUTBits+1)
-    resultPerNumber = 0
-    counterPerBits = 1
-    first = True
-    print "----------------------------------------------", x, "---------------------------------------------"
-    for bit in testNumber:
-        if(not first):
-            print "bit: ", bit
-            resultPerNumber = resultPerNumber + 2**(-counterPerBits) * int(bit)
-            print "resultPerNumber: ", resultPerNumber
-            counterPerBits += 1
+        print "listOriginal: ", testNumber
+        #print "listExp: ", expResultList
+        print x, " : ", resultPerNumber
+        print "exp(x): ", x , ": " , expResult
+
+
+        binaryResult = blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits)
+        newBinaryData = ''
+        #for x in range(len(binaryResult)-fractional_bits, len(binaryResult)):
+        for x in range(0,len(binaryResult)):
+            newBinaryData += str(binaryResult[x])
+        if (sign < 0):
+            listOfFractionalExp.insert(0,expResult)
+            listOfFractionalExpBin.insert(0,newBinaryData)
         else:
-            first = False
-    first = True
-    expResult = float(exp(float(resultPerNumber)))
-    expResultList = blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits)
+            listOfFractionalExp.append(expResult)
+            listOfFractionalExpBin.append(newBinaryData)
+        #listOfFractionalExp.append(expResult)
+        #listOfFractionalExpBin.append(newBinaryData)
 
-    print "listOriginal: ", testNumber
-    print "listExp: ", expResultList
-    print x, " : ", resultPerNumber
-    print "exp(x): ", x , ": " , expResult
-    print "exp(x) Fixed : ", x , ": " , blop.binary_list_to_number(expResultList,fractional_bits,integer_bits)
+    if(sign < 0):
+        listOfFractionalExpBin.insert(0,listOfFractionalExpBin[len(listOfFractionalExpBin)-1]);
+        listOfFractionalExpBin.pop()
+
+    for bine in range(0,len(listOfFractionalExpBin)):
+        fileFractLut.write(listOfFractionalExpBin[bine] + '\n')
+        decimalValue = expResultList[bine]
+        fileFractLutDec.write(str(decimalValue) + '\n')
+    fileFractLut.close()
+    fileFractLutDec.close()
 
 
-    binaryResult = blop.decimal_to_binary_list(expResult,fractional_bits,integer_bits)
-    newBinaryData = ''
-    #for x in range(len(binaryResult)-fractional_bits, len(binaryResult)):
-    for x in range(0,len(binaryResult)):
-        newBinaryData += str(binaryResult[x])
-    listOfFractionalExp.append(expResult)
-    listOfFractionalExpBin.append(newBinaryData)
-    fileFractLut.write(newBinaryData + '\n')
+#---------------------------End Fractional Lut
 
-fileFractLut.close()
-fileIntLut.close()
+fillFractLutTable(-1)
+fillFractLutTable(1)
+
+
 
 c3Num = 2**-3 + 2**-5 + 2**-7 + 2**-9 + 2**-11 + 2**-13;
 c4Num = 2**-5 + 2**-7 + 2**-8
@@ -114,7 +148,7 @@ for x in range(0,len(c3)):
     c3BinaryData += str(c3[x])
     c4BinaryData += str(c4[x])
 
-
+'''
 print "-----------------c3: ", c3
 print "-----------------c4: ", c4
 print "-----------------c3BinaryData: ", c3BinaryData
@@ -128,3 +162,4 @@ print
 println(listOfFractionalExpBin)
 print "-------------Float----------------"
 println(listOfFractionalExp)
+'''

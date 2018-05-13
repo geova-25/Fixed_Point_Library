@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Fract_LUT #(parameter Word_length = 32, typeS = 1)(
+module Fract_LUT_Negative #(parameter Word_length = 32, type = 1)(
     input wire [5:0] address,
     output reg [Word_length-1:0] value 
     );
@@ -33,11 +33,12 @@ module Fract_LUT #(parameter Word_length = 32, typeS = 1)(
         end
     
     initial
-         begin
-            if(typeS == 1)
-                $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryFractionalLUTPositive.data", LUT);
-            else
-                $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryFractionalLUTNegative.data", LUT);            
-        end 
- 
+     begin
+        if(type == 1)
+            $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryFractionalLUTPositive.data", LUT);
+        else
+            $readmemb("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/binaryFractionalLUTNegative.data", LUT);            
+    end 
+    
+    
 endmodule
