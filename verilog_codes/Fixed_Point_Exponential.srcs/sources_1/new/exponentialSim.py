@@ -55,8 +55,8 @@ def fillIntLutTable(sign):
         fileIntLut.write(newBinaryData + '\n')
     fileIntLut.close()
 
-fillIntLutTable(-1)
-fillIntLutTable(1)
+#fillIntLutTable(-1)
+#fillIntLutTable(1)
 
 print "-------------Integer list----------------"
 print "-------------Binary----------------"
@@ -106,18 +106,18 @@ def fillFractLutTable(sign):
         #for x in range(len(binaryResult)-fractional_bits, len(binaryResult)):
         for x in range(0,len(binaryResult)):
             newBinaryData += str(binaryResult[x])
-        if (sign < 0):
-            listOfFractionalExp.insert(0,expResult)
-            listOfFractionalExpBin.insert(0,newBinaryData)
-        else:
-            listOfFractionalExp.append(expResult)
-            listOfFractionalExpBin.append(newBinaryData)
+        #if (sign < 0):
+        #    listOfFractionalExp.insert(0,expResult)
+        #    listOfFractionalExpBin.insert(0,newBinaryData)
+        #else:
+        listOfFractionalExp.append(expResult)
+        listOfFractionalExpBin.append(newBinaryData)
         #listOfFractionalExp.append(expResult)
         #listOfFractionalExpBin.append(newBinaryData)
 
-    if(sign < 0):
-        listOfFractionalExpBin.insert(0,listOfFractionalExpBin[len(listOfFractionalExpBin)-1]);
-        listOfFractionalExpBin.pop()
+    #if(sign < 0):
+    #    listOfFractionalExpBin.insert(0,listOfFractionalExpBin[len(listOfFractionalExpBin)-1]);
+    #    listOfFractionalExpBin.pop()
 
     for bine in range(0,len(listOfFractionalExpBin)):
         fileFractLut.write(listOfFractionalExpBin[bine] + '\n')
@@ -130,7 +130,7 @@ def fillFractLutTable(sign):
 #---------------------------End Fractional Lut
 
 fillFractLutTable(-1)
-fillFractLutTable(1)
+#fillFractLutTable(1)
 
 
 
