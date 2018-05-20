@@ -69,6 +69,8 @@ module Test_Fp_Exponential(
     always @(posedge clk)
         begin
             endCondition = $fscanf(fpOpBin,"%b",Operand);
+            OperandFractLutPart = {{17{1'b1}},{Operand[14:9]},{9{1'b1}}};
+            OperandFractTaylorPart = {{17{1'b1}},{6{1'b1}},{Operand[8:0]}};
             if(endCondition != -1)
             begin
                 #50;

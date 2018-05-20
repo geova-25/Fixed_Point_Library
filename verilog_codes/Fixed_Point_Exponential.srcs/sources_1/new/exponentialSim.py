@@ -37,8 +37,10 @@ listOfFractionalExpBin = []
 def fillIntLutTable(sign):
     if (sign > 0):
         fileIntLut = open("binaryIntegerLUTPositive.data","w")
+        fileIntLutDec = open("decimalIntegerLUTPositive.data","w")
     else:
         fileIntLut = open("binaryIntegerLUTNegative.data","w")
+        fileIntLutDec = open("decimalIntegerLUTNegative.data","w")
     for x in range(0,15):
         floatResult = exp(sign * x)
         binaryResult = blop.decimal_to_binary_list(floatResult,fractional_bits,integer_bits)
@@ -53,9 +55,11 @@ def fillIntLutTable(sign):
         #listOfIntegerExpBin.append(binaryResult)
 
         fileIntLut.write(newBinaryData + '\n')
+        fileIntLutDec.write(str(fixedResult) + '\n')
     fileIntLut.close()
+    fileIntLutDec.close()
 
-#fillIntLutTable(-1)
+fillIntLutTable(-1)
 #fillIntLutTable(1)
 
 print "-------------Integer list----------------"
@@ -129,7 +133,7 @@ def fillFractLutTable(sign):
 
 #---------------------------End Fractional Lut
 
-fillFractLutTable(-1)
+#fillFractLutTable(-1)
 #fillFractLutTable(1)
 
 

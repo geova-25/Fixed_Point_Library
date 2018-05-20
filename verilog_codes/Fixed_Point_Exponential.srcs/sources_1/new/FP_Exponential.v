@@ -113,7 +113,7 @@ module FP_Exponential #(parameter Word_length = 32, fractional_bits = 15)(
                 end
             else
                 begin
-                    x1[bitsOfPolinomialCalc-1:0] = Operand[bitsOfPolinomialCalc-1:0];
+                    x1[bitsOfPolinomialCalc-1:0] = twoComplementOperand[bitsOfPolinomialCalc-1:0];
 
                     //x1 = {{17{1'b1}},{6{1'b1}},Operand[bitsOfPolinomialCalc-1:0]};
                     x2 = ({{32'b0}, x1} * x1) >> fractional_bits;
