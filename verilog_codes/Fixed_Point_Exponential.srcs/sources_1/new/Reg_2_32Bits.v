@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/20/2018 09:40:04 AM
+// Create Date: 05/21/2018 05:15:12 PM
 // Design Name: 
-// Module Name: Write_Stage
+// Module Name: Reg_2_32Bits
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,20 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Write_Stage #(parameter Word_length = 32, fractional_bits = 15) (
+module Reg_2_32Bits #(parameter Word_length = 32, fractional_bits = 15) (
     input clk,
-    input [Word_length-1:0] fint,
-    input [Word_length-1:0] ffract_x_fpoly,
-    output reg [Word_length-1:0] Result = 0
+    input [Word_length-1:0] Entry_1,
+    input [Word_length-1:0] Entry_2,
+    output reg [Word_length-1:0] Out_1,
+    output reg [Word_length-1:0] Out_2
     );
-    reg [Word_length-1:0] Result_Aux = 0;
     
     always @(posedge clk)
-        Result = Result_Aux;
-         
-    always @(*)
     begin
-        Result_Aux = ({{32'b0}, ffract_x_fpoly} * fint) >> fractional_bits;
+        Out_1 <= Entry_1;
+        Out_2 <= Entry_2;        
     end
-    
 endmodule
