@@ -1,0 +1,173 @@
+#-----------------------------------------------------------
+# Vivado v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:54:30 MST 2017
+# IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+# Start of session at: Sat May 26 17:19:38 2018
+# Process ID: 10300
+# Current directory: /home/giovanni/Documents/git/Fixed_Point_Library
+# Command line: vivado
+# Log file: /home/giovanni/Documents/git/Fixed_Point_Library/vivado.log
+# Journal file: /home/giovanni/Documents/git/Fixed_Point_Library/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.xpr
+update_compile_order -fileset sources_1
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+relaunch_sim
+run 20000 ns
+relaunch_sim
+run 20000 ns
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+relaunch_sim
+run 20000 ns
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+relaunch_sim
+run 20000 ns
+relaunch_sim
+run 20000 ns
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+relaunch_sim
+close_sim
+launch_simulation -mode post-synthesis -type functional
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+relaunch_sim
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_sim
+close_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+launch_simulation -mode post-implementation -type functional
+source Test_Pipe.tcl
+close_sim
+close_sim
+close_design
+refresh_design
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+relaunch_sim
+run 20000 ns
+close_sim
+close_design
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+launch_simulation -mode post-implementation -type functional
+source Test_Pipe.tcl
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+close_sim
+close_design
+launch_simulation -mode post-implementation -type functional
+source Test_Pipe.tcl
+run 20000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -jobs 4
+wait_on_run impl_1
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+run 20000 ns
+run 20000 ns
+relaunch_sim
+run 20000 ns
+relaunch_sim
+run 20000 ns
+run 20000 ns
+run 20000 ns
+relaunch_sim
+relaunch_sim
+run 20000 ns
+relaunch_sim
+relaunch_sim
+run 20000 ns
+relaunch_sim
+relaunch_sim
+run 20000 ns
+relaunch_sim
+relaunch_sim
+close_sim
+launch_simulation -mode post-synthesis -type functional
+source Test_Pipe.tcl
+relaunch_sim
+run 20000 ns
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run 20000 ns
+relaunch_sim
+run 20000 ns
+run 20000 ns
+relaunch_sim
+run 20000 ns
+relaunch_sim
+run 200000 ns
+run 200000 ns
+run 200000 ns
+run 200000 ns
+run 200000 ns
+run 200000 ns
+relaunch_sim
+run 200000 ns
+current_design impl_1
+close_design
+launch_simulation -mode post-implementation -type timing
+source Test_Pipe.tcl
+run 200000 ns
+close_sim
+current_sim simulation_14
+close_sim
+close_sim

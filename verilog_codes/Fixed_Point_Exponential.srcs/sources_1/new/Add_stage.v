@@ -22,6 +22,7 @@
 
 module Add_stage #(parameter Word_length = 32, fractional_bits = 15)(
     //input clk,
+    input sign,
     input [Word_length-1:0] fint,
     input [Word_length-1:0] ffract,
     input [Word_length-1:0] ffractx1,
@@ -43,13 +44,15 @@ module Add_stage #(parameter Word_length = 32, fractional_bits = 15)(
 
     always @(*)
     begin
-
-        ffract_x_fpoly = ffractx2 >> 1;
+        fintOut = fint;        
         //ffract_x_fpoly = ffract_x_fpoly +  (({{32'b0}, ffractx3} * c3) >> fractional_bits);
-        //ffract_x_fpoly = ffract_x_fpoly + (({{32'b0}, ffractx4} * c4) >> fractional_bits);                    
-        ffract_x_fpoly = ffract_x_fpoly + ffract + ffractx1; 
+        //ffract_x_fpoly = ffract_x_fpoly + (({{32'b0}, ffractx4} * c4) >> fractional_bits);  
+        if(sign == 1'b1)                
+            ffract_x_fpoly = ffract - ffractx1 + (ffractx2 >> 1);
+        else
+            ffract_x_fpoly = ffract + ffractx1 + (ffractx2 >> 1);
         //ffract_x_fpoly = ffract; 
-        fintOut = fint;
+        
     
     /*
         ffractx2Aux = ffractx2 >> 1;

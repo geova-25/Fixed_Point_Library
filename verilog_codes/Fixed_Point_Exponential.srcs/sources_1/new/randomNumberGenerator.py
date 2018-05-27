@@ -14,8 +14,8 @@ intBits = 17
 def generateRandomFloatsDecimalListExp():
     file = open("OperandsDecimalExp.txt","w")
     fileResultDecimalFloatingPoint = open("ResultDecimalFloatingPointExp.txt","w")
-    for x in range (0,20):
-        randomA = random.uniform(-8.0,8.0)
+    for x in range (0,500):
+        randomA = random.uniform(-6.0,11.0)
         listRandomFloatsA.append(randomA)
         file.write(str(format(randomA, '.10f')) + " \n")
         fileResultDecimalFloatingPoint.write(str(format(exp(randomA),'.10f') + " \n"))

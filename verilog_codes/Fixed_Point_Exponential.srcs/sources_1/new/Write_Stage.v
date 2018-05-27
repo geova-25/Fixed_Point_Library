@@ -21,19 +21,15 @@
 
 
 module Write_Stage #(parameter Word_length = 32, fractional_bits = 15) (
-    input clk,
+    //input clk,
     input [Word_length-1:0] fint,
     input [Word_length-1:0] ffract_x_fpoly,
     output reg [Word_length-1:0] Result = 0
     );
-    reg [Word_length-1:0] Result_Aux = 0;
-    
-    always @(posedge clk)
-        Result = Result_Aux;
          
     always @(*)
     begin
-        Result_Aux = ({{32'b0}, ffract_x_fpoly} * fint) >> fractional_bits;
+        Result = ({{32'b0}, ffract_x_fpoly} * fint) >> fractional_bits;
     end
     
 endmodule

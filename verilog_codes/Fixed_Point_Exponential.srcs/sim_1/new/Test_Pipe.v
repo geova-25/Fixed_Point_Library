@@ -26,20 +26,21 @@ module Test_Pipe(
     localparam Word_length = 32;
     localparam fractional_bits = 15;
     reg clk = 0;
-    reg [Word_length-1:0] Operand;
+    reg clk2 = 0;
     //reg [:0] Operand;
 
-    
+   
+    wire [Word_length-1:0] Result_Write;
     wire [Word_length-1:0] Result;
+    
+    reg [Word_length-1:0]Operand = 0;
+    
+    ///*
     wire [Word_length-1:0] x1;
     wire [Word_length-1:0] x2;
-    wire [Word_length-1:0] x3;
-    wire [Word_length-1:0] x4;
 
     wire [Word_length-1:0] Reg_x1;
     wire [Word_length-1:0] Reg_x2;
-    wire [Word_length-1:0] Reg_x3;
-    wire [Word_length-1:0] Reg_x4;
     
     wire [Word_length-1:0] fint;
     wire [Word_length-1:0] fintReg1;
@@ -53,21 +54,15 @@ module Test_Pipe(
     
     wire [Word_length-1:0] ffractx1;
     wire [Word_length-1:0] ffractx2;
-    wire [Word_length-1:0] ffractx3;
-    wire [Word_length-1:0] ffractx4;
-    
-    wire [Word_length-1:0] Reg_ffractx1;
-    wire [Word_length-1:0] Reg_ffractx2;
-    wire [Word_length-1:0] Reg_ffractx3;
-    wire [Word_length-1:0] Reg_ffractx4;
     
     wire [Word_length-1:0] Reg_ffractx1_Add;
-    wire [Word_length-1:0] Reg_ffractx2_Add;
-    wire [Word_length-1:0] Reg_ffractx3_Add;
-    wire [Word_length-1:0] Reg_ffractx4_Add;    
+    wire [Word_length-1:0] Reg_ffractx2_Add;    
     
     wire [Word_length-1:0] ffract_x_fpoly;
-/*
+    
+    wire sign1,sign2,sign3;
+    /*
+
     LUT_Stage #(.Word_length(Word_length), .fractional_bits(fractional_bits)) LUT_Stg(
         //.clk(clk),
         //.Operand(Operand),
@@ -78,11 +73,13 @@ module Test_Pipe(
         //.x3(x3),
         //.x4(x4),
         .fint(fint),   
-        .ffract(ffract)    
+        .ffract(ffract),
+        .sign(sign1)
     );        
     
     Cm_Registers #(.Word_length(Word_length),.fractional_bits(fractional_bits)) CM_1(
         .clk(clk),        
+        .signIn(sign1),
         .fint(fint),
         .ffract(ffract),
         .Entry1(x1),
@@ -90,6 +87,7 @@ module Test_Pipe(
         //.Entry3(x3),
         //.Entry4(x4),
         //-------------Outputs
+        .signOut(sign2),
         .Fint_Reg(fintReg1),
         .Ffract_Reg(ffractReg1),
         .Reg_1(Reg_x1),
@@ -118,6 +116,7 @@ module Test_Pipe(
   
     Cm_Registers #(.Word_length(Word_length),.fractional_bits(fractional_bits)) CM_2(
         .clk(clk),        
+        .signIn(sign2),
         .fint(fintReg1),
         .ffract(ffractReg1),
         .Entry1(ffractx1),
@@ -125,6 +124,7 @@ module Test_Pipe(
         //.Entry3(ffractx3),
         //.Entry4(ffractx4),
         //-------------Outputs
+        .signOut(sign3),        
         .Fint_Reg(fintReg2),
         .Ffract_Reg(ffractReg2),        
         .Reg_1(Reg_ffractx1_Add),
@@ -135,6 +135,7 @@ module Test_Pipe(
     
     Add_stage #(.Word_length(Word_length), .fractional_bits(fractional_bits)) Add_Stg (
         //.clk(clk),
+        .sign(sign3),
         .fint(fintReg2),
         .ffract(ffractReg2),
         .ffractx1(Reg_ffractx1_Add),
@@ -160,66 +161,99 @@ module Test_Pipe(
     
     
     Write_Stage #(.Word_length(Word_length), .fractional_bits(fractional_bits)) Wr_Stage (
-        .clk(clk),
+        //.clk(clk),
         .fint(fintOutAdd_Write),
         .ffract_x_fpoly(ffract_x_fpoly_Write),
         //-------------Output
-        .Result(Result)
+        .Result(Result_Write)
     );
- */
     
-   //*/
+    Output_Reg #(.Word_length(32), .fractional_bits(15)) out_reg (
+        .clk(clk),
+        .Result_Write(Result_Write),
+        .Result(Result) 
+        );
+
+    
+    */
    
     /*
     FP_Exponential #(.Word_length(32), .fractional_bits(15)) FP_Exp (
         .clk(clk),
         .Operand(Operand),
-        .Result(Result)
+        .Result(Result),
+        .sign1(sign1),
+        .sign2(sign2),
+        .sign3(sign3)
     );   
     */
+    
     
     FP_Exponential #(.Word_length(32), .fractional_bits(15)) FP_Exp (
         .clk(clk),
         .OperandIn(Operand[19:0]),
+        //.Operand(Operand),
         .sign(Operand[31]),
-        .Result(Result)
+        .Result(Result),
+        .sign1(sign1),
+        .sign2(sign2),
+        .sign3(sign3)        
     );
-    //*/
+    
+  
     
     int fpOpBin, fpReBin;
     int endCondition = 0;
   
-    always #25 clk = ~clk;
+    always #100 clk = ~clk;
+    
     int counter = 0;
-     always @(posedge clk)
+    int counterWrite = 0;
+    always @(posedge clk)
                begin
-                   if(counter == 0)
-                   begin
-                        counter = counter + 1;
-
-                       endCondition = $fscanf(fpOpBin,"%b",Operand);
-                       //OperandFractLutPart = {{17{1'b1}},{Operand[14:9]},{9{1'b1}}};
-                       //OperandFractTaylorPart = {{17{1'b1}},{6{1'b1}},{Operand[8:0]}};
-                       if(endCondition != -1)
-                       begin
-                           #50;
-                           fpReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/ResultBinaryExp.txt","a+");
-                           $fwrite(fpReBin,"%b \n",Result);
-                           $fclose(fpReBin);
-                       end
-                       else
-                       begin
-                           $fclose(fpOpBin);
-                       end                        
-                    end
-                   else if (counter == 4)
-                        counter = 0;
+                   endCondition = $fscanf(fpOpBin,"%b",Operand);
+                   if(counter < 5)
+                        begin
+                            counter = counter + 1;                            
+                           //counter = counter + 1;
+                           //endCondition = $fscanf(fpOpBin,"%b",Operand);
+                           //OperandFractLutPart = {{17{1'b1}},{Operand[14:9]},{9{1'b1}}};
+                           //OperandFractTaylorPart = {{17{1'b1}},{6{1'b1}},{Operand[8:0]}};
+                           /*if(endCondition != -1)
+                           begin
+                               #50;
+                               fpReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/ResultBinaryExp.txt","a+");
+                               $fwrite(fpReBin,"%b \n",Result);
+                               $fclose(fpReBin);
+                           end
+                           else
+                           begin
+                               $fclose(fpOpBin);
+                           end
+                           */                        
+                        end
                    else
+                    begin
                         counter = counter + 1;
+                        if(counter >= 5 && counterWrite < 5)
+                            begin
+                                if(endCondition == -1) 
+                                    counterWrite = counterWrite + 1;
+                                else 
+                                    counterWrite = counterWrite;
+                                fpReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/ResultBinaryExp.txt","a+");                                
+                                $fwrite(fpReBin,"%b \n",Result);
+                                $fclose(fpReBin);
+                            end
+                        else
+                            begin
+                                $fclose(fpOpBin);
+                            end
+                    end                                              
                end    
     
     initial 
-        begin        
+        begin   
             fpOpBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/OperandsBinaryExp.txt","r");
             fpReBin = $fopen("/home/giovanni/xilinx_projects/Fixed_Point_Exponential/Fixed_Point_Exponential.srcs/sources_1/new/ResultBinaryExp.txt","w+");
             $fclose(fpReBin);
