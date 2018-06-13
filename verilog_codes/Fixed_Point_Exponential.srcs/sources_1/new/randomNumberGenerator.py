@@ -6,16 +6,16 @@ listRandomFloatsA = []
 listRandomFloatsB = []
 listRandomBinaryA = []
 listRandomBinaryB = []
-fractBits = 15
-intBits = 17
+fractBits = 24
+intBits = 8
 
 
 
 def generateRandomFloatsDecimalListExp():
     file = open("OperandsDecimalExp.txt","w")
     fileResultDecimalFloatingPoint = open("ResultDecimalFloatingPointExp.txt","w")
-    for x in range (0,500):
-        randomA = random.uniform(-6.0,11.0)
+    for x in range (0,50):
+        randomA = random.uniform(-12.0,4.0)
         listRandomFloatsA.append(randomA)
         file.write(str(format(randomA, '.10f')) + " \n")
         fileResultDecimalFloatingPoint.write(str(format(exp(randomA),'.10f') + " \n"))

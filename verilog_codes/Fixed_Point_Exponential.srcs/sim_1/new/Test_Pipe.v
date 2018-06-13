@@ -24,7 +24,7 @@ module Test_Pipe(
     );
     
     localparam Word_length = 32;
-    localparam fractional_bits = 15;
+    localparam fractional_bits = 24;
     reg clk = 0;
     reg clk2 = 0;
     //reg [:0] Operand;
@@ -38,9 +38,13 @@ module Test_Pipe(
     ///*
     wire [Word_length-1:0] x1;
     wire [Word_length-1:0] x2;
+    wire [Word_length-1:0] x3;
+    wire [Word_length-1:0] x4;
 
     wire [Word_length-1:0] Reg_x1;
     wire [Word_length-1:0] Reg_x2;
+    wire [Word_length-1:0] Reg_x3;
+    wire [Word_length-1:0] Reg_x4;    
     
     wire [Word_length-1:0] fint;
     wire [Word_length-1:0] fintReg1;
@@ -54,24 +58,33 @@ module Test_Pipe(
     
     wire [Word_length-1:0] ffractx1;
     wire [Word_length-1:0] ffractx2;
+    wire [Word_length-1:0] ffractx3;
+    wire [Word_length-1:0] ffractx4;
     
     wire [Word_length-1:0] Reg_ffractx1_Add;
-    wire [Word_length-1:0] Reg_ffractx2_Add;    
-    
+    wire [Word_length-1:0] Reg_ffractx2_Add;
+    wire [Word_length-1:0] Reg_ffractx3_Add;
+    wire [Word_length-1:0] Reg_ffractx4_Add;    
+    wire [Word_length-1:0] Operand2;
     wire [Word_length-1:0] ffract_x_fpoly;
     
     wire sign1,sign2,sign3;
-    /*
+    
+    Output_Reg #(.Word_length(Word_length), .fractional_bits(fractional_bits)) in_reg (
+        .clk(clk),
+        .Result_Write(Operand),
+        .Result(Operand2) 
+    );
 
     LUT_Stage #(.Word_length(Word_length), .fractional_bits(fractional_bits)) LUT_Stg(
         //.clk(clk),
         //.Operand(Operand),
-        .Operand(Operand),  
+        .Operand(Operand2),  
         //-----------Outputs      
         .x1(x1),
         .x2(x2),
-        //.x3(x3),
-        //.x4(x4),
+        .x3(x3),
+        .x4(x4),
         .fint(fint),   
         .ffract(ffract),
         .sign(sign1)
@@ -84,16 +97,16 @@ module Test_Pipe(
         .ffract(ffract),
         .Entry1(x1),
         .Entry2(x2),
-        //.Entry3(x3),
-        //.Entry4(x4),
+        .Entry3(x3),
+        .Entry4(x4),
         //-------------Outputs
         .signOut(sign2),
         .Fint_Reg(fintReg1),
         .Ffract_Reg(ffractReg1),
         .Reg_1(Reg_x1),
-        .Reg_2(Reg_x2)
-        //.Reg_3(Reg_x3),
-        //.Reg_4(Reg_x4)  
+        .Reg_2(Reg_x2),
+        .Reg_3(Reg_x3),
+        .Reg_4(Reg_x4)  
     );
     
  
@@ -101,17 +114,17 @@ module Test_Pipe(
         //.clk(clk),
         .x1(Reg_x1),
         .x2(Reg_x2),
-        //.x3(Reg_x3),
-        //.x4(Reg_x4),
+        .x3(Reg_x3),
+        .x4(Reg_x4),
         .ffract(ffractReg1),
         //.fint(fintReg1),
         //-------------Outputs
         //.ffractOut(ffractOutMult),
         //.fintOut(fintOutMult),
         .ffractx1(ffractx1),
-        .ffractx2(ffractx2)
-        //.ffractx3(ffractx3),
-        //.ffractx4(ffractx4)
+        .ffractx2(ffractx2),
+        .ffractx3(ffractx3),
+        .ffractx4(ffractx4)
     );
   
     Cm_Registers #(.Word_length(Word_length),.fractional_bits(fractional_bits)) CM_2(
@@ -121,16 +134,16 @@ module Test_Pipe(
         .ffract(ffractReg1),
         .Entry1(ffractx1),
         .Entry2(ffractx2),
-        //.Entry3(ffractx3),
-        //.Entry4(ffractx4),
+        .Entry3(ffractx3),
+        .Entry4(ffractx4),
         //-------------Outputs
         .signOut(sign3),        
         .Fint_Reg(fintReg2),
         .Ffract_Reg(ffractReg2),        
         .Reg_1(Reg_ffractx1_Add),
-        .Reg_2(Reg_ffractx2_Add)
-        //.Reg_3(Reg_ffractx3_Add),
-        //.Reg_4(Reg_ffractx4_Add)        
+        .Reg_2(Reg_ffractx2_Add),
+        .Reg_3(Reg_ffractx3_Add),
+        .Reg_4(Reg_ffractx4_Add)        
     );
     
     Add_stage #(.Word_length(Word_length), .fractional_bits(fractional_bits)) Add_Stg (
@@ -140,8 +153,8 @@ module Test_Pipe(
         .ffract(ffractReg2),
         .ffractx1(Reg_ffractx1_Add),
         .ffractx2(Reg_ffractx2_Add),
-        //.ffractx3(Reg_ffractx3_Add),
-        //.ffractx4(Reg_ffractx4_Add),
+        .ffractx3(Reg_ffractx3_Add),
+        .ffractx4(Reg_ffractx4_Add),
         //-------------Outputs
         .ffract_x_fpoly(ffract_x_fpoly),
         .fintOut(fintOutAdd)
@@ -172,33 +185,21 @@ module Test_Pipe(
         .clk(clk),
         .Result_Write(Result_Write),
         .Result(Result) 
-        );
-
+    );
     
-    */
-   
+    
     /*
-    FP_Exponential #(.Word_length(32), .fractional_bits(15)) FP_Exp (
+    FP_Exponential #(.Word_length(Word_length), .fractional_bits(fractional_bits)) FP_Exp (
         .clk(clk),
+        //.OperandIn(Operand[19:0]),
         .Operand(Operand),
-        .Result(Result),
-        .sign1(sign1),
-        .sign2(sign2),
-        .sign3(sign3)
-    );   
-    */
-    
-    
-    FP_Exponential #(.Word_length(32), .fractional_bits(15)) FP_Exp (
-        .clk(clk),
-        .OperandIn(Operand[19:0]),
-        //.Operand(Operand),
-        .sign(Operand[31]),
+        //.sign(Operand[31]),
         .Result(Result),
         .sign1(sign1),
         .sign2(sign2),
         .sign3(sign3)        
     );
+    */
     
   
     

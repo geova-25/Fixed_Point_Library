@@ -27,15 +27,15 @@ module Cm_Registers #(parameter Word_length = 32, fractional_bits = 15) (
     input wire [Word_length-1:0] ffract,
     input wire [Word_length-1:0] Entry1,
     input wire [Word_length-1:0] Entry2,
-    //input [Word_length-1:0] Entry3,
-    //input [Word_length-1:0] Entry4,
+    input [Word_length-1:0] Entry3,
+    input [Word_length-1:0] Entry4,
     output reg [Word_length-1:0] Fint_Reg,
     output reg [Word_length-1:0] Ffract_Reg,
     output reg [Word_length-1:0] Reg_1,
     output reg [Word_length-1:0] Reg_2,
-    output reg signOut
-    //output reg [Word_length-1:0] Reg_3,
-    //output reg [Word_length-1:0] Reg_4
+    output reg signOut,
+    output reg [Word_length-1:0] Reg_3,
+    output reg [Word_length-1:0] Reg_4
     );
     
     always @(posedge clk)
@@ -45,8 +45,8 @@ module Cm_Registers #(parameter Word_length = 32, fractional_bits = 15) (
         Reg_1 <= Entry1;
         Reg_2 <= Entry2;
         signOut <= signIn;
-        //Reg_3 <= Entry3;
-        //Reg_4 <= Entry4;
+        Reg_3 <= Entry3;
+        Reg_4 <= Entry4;
     end
     
     

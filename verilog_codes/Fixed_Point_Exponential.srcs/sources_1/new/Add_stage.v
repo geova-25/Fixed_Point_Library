@@ -20,15 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Add_stage #(parameter Word_length = 32, fractional_bits = 15)(
+module Add_stage #(parameter Word_length = 32, fractional_bits = 24)(
     //input clk,
     input sign,
     input [Word_length-1:0] fint,
     input [Word_length-1:0] ffract,
     input [Word_length-1:0] ffractx1,
     input [Word_length-1:0] ffractx2,
-    //input [Word_length-1:0] ffractx3,
-    //input [Word_length-1:0] ffractx4,
+    input [Word_length-1:0] ffractx3,
+    input [Word_length-1:0] ffractx4,
     output reg [Word_length-1:0] ffract_x_fpoly,
     output reg [Word_length-1:0] fintOut
     );
@@ -37,8 +37,8 @@ module Add_stage #(parameter Word_length = 32, fractional_bits = 15)(
     //reg [Word_length-1:0] ffractx3Aux;
     //reg [Word_length-1:0] ffractx4Aux;
     
-    localparam c3 = 32'b00000000000000000001010101010100;
-    localparam c4 = 32'b00000000000000000000010110000000;
+    localparam c3 = 32'b00000000001010101010100000000000;
+    localparam c4 = 32'b00000000000010110000000000000000;
     
     //always @(posedge clk)
 
@@ -48,9 +48,9 @@ module Add_stage #(parameter Word_length = 32, fractional_bits = 15)(
         //ffract_x_fpoly = ffract_x_fpoly +  (({{32'b0}, ffractx3} * c3) >> fractional_bits);
         //ffract_x_fpoly = ffract_x_fpoly + (({{32'b0}, ffractx4} * c4) >> fractional_bits);  
         if(sign == 1'b1)                
-            ffract_x_fpoly = ffract - ffractx1 + (ffractx2 >> 1);
+            ffract_x_fpoly = ffract - ffractx1 + (ffractx2 >> 1) - (({{32'b0}, ffractx3} * c3) >> fractional_bits) + (({{32'b0}, ffractx4} * c4) >> fractional_bits);
         else
-            ffract_x_fpoly = ffract + ffractx1 + (ffractx2 >> 1);
+            ffract_x_fpoly = ffract + ffractx1 + (ffractx2 >> 1) + (({{32'b0}, ffractx3} * c3) >> fractional_bits) + (({{32'b0}, ffractx4} * c4) >> fractional_bits);
         //ffract_x_fpoly = ffract; 
         
     

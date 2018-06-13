@@ -15,4 +15,4 @@ def convertBinaryResultToDecimal(wordLength,fractBits):
         counter += 1
     fileResultBinary.close()
     fileResultDecimal.close()
-convertBinaryResultToDecimal(32,15)
+convertBinaryResultToDecimal(32,24)
